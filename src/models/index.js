@@ -3,13 +3,16 @@
 
 const { DataTypes, Sequelize, DATABASE_URL, sequelizeOption } = require("../config")
 
-const createItemSaleTable = require('./itemSale.model')
-const createItemRentalTable = require('./itemRental.model')
-const createOrderTable = require('./order.model')
+const createItemSaleModel = require('./itemSale.model')
+const createItemRentalModel = require('./itemRental.model')
+const createOrderModel = require('./order.model')
 const createCategoryModel = require("./category.model");
 const createEventModel = require("./event.model");
 const createProviderModel = require('./provider.model');
 const createClientModel = require('./client.model');
+const createOrderDetailsModel = require('./orderDetails.model')
+const createStoreModel = require('./store.model')
+const createRentalTrackingModel = require('./rentalTracking.model');
 
 const sequelize = new Sequelize(
   DATABASE_URL
@@ -17,10 +20,12 @@ const sequelize = new Sequelize(
 );
 
 
-
-const itemSaleModel = createItemSaleTable(sequelize, DataTypes);
-const itemRentalModel = createItemRentalTable(sequelize, DataTypes);
-const orderModel = createOrderTable(sequelize, DataTypes);
+const rentalTrackingmodel = createRentalTrackingModel(sequelize, DataTypes)
+const storeModel = createStoreModel(sequelize, DataTypes)
+const orderDetailsModel = createOrderDetailsModel(sequelize, DataTypes)
+const saleItemModel = createItemSaleModel(sequelize, DataTypes);
+const rentalItemModel = createItemRentalModel(sequelize, DataTypes);
+const orderModel = createOrderModel(sequelize, DataTypes);
 const eventModel = createEventModel(sequelize, DataTypes);
 const categoryModel = createCategoryModel(sequelize, DataTypes);
 const providerModel = createProviderModel(sequelize, DataTypes);

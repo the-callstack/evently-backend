@@ -1,6 +1,6 @@
 'use strict';
 
-const createItemRentalTable = (sequelize, DataTypes) => sequelize.define('rentalItem', {
+const createItemRentalModel = (sequelize, DataTypes) => sequelize.define('rentalItem', {
     IMG: {
         type: DataTypes.STRING
     },
@@ -17,4 +17,4 @@ const createItemRentalTable = (sequelize, DataTypes) => sequelize.define('rental
         allowNull: false
     }
 })
-module.exports = createItemRentalTable;
+module.exports = createItemRentalModel;

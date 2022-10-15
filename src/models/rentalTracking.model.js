@@ -1,6 +1,6 @@
 "use strict";
 
-const createRentalTrackingTable = (sequelize, DataTypes) => {
+const createRentalTrackingModel = (sequelize, DataTypes) => {
   return sequelize.define("RentalTracking", {
     date: {
       type: DataTypes.DATE,
@@ -13,4 +13,4 @@ const createRentalTrackingTable = (sequelize, DataTypes) => {
   });
 };
 
-module.exports = createRentalTrackingTable;
+module.exports = createRentalTrackingModel;

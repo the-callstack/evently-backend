@@ -1,6 +1,6 @@
 'use strict';
 
-const createOrderTable = (sequelize, DataTypes) => sequelize.define('Order', {
+const createOrderModel = (sequelize, DataTypes) => sequelize.define('Order', {
     orderDate: {
         type: DataTypes.DATE,
         allowNull: false
@@ -13,4 +13,4 @@ const createOrderTable = (sequelize, DataTypes) => sequelize.define('Order', {
         type: DataTypes.INTEGER, allowNull: false
     }
 })
-module.exports = createOrderTable;
+module.exports = createOrderModel;

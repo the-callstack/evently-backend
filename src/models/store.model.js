@@ -1,6 +1,6 @@
 "use strict";
 
-const createStoreTable = (sequelize, DataTypes) =>{
+const createStoreModel = (sequelize, DataTypes) => {
   return sequelize.define("Store", {
     storeName: {
       type: DataTypes.STRING,
@@ -18,4 +18,4 @@ const createStoreTable = (sequelize, DataTypes) =>{
 
 }
 
-module.exports = createStoreTable;
+module.exports = createStoreModel;

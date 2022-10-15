@@ -1,6 +1,6 @@
 'use strict';
 
-const createItemSaleTable = (sequelize, DataTypes) => sequelize.define('saleItem', {
+const createItemSaleModel = (sequelize, DataTypes) => sequelize.define('saleItem', {
     IMG: {
         type: DataTypes.STRING
     },
@@ -17,4 +17,4 @@ const createItemSaleTable = (sequelize, DataTypes) => sequelize.define('saleItem
         allowNull: false
     }
 })
-module.exports = createItemSaleTable;
+module.exports = createItemSaleModel;
