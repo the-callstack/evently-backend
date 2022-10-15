@@ -2,8 +2,7 @@
 
 const { express } = require("./config")
 const { cors, morgan, cookieParser } = require('./config/utils')
-const errorHandler = require("./controllers/errorControllers/error-handler")
-const pageNotFoundHandler = require("./controllers/errorControllers/pageNotFundHandler")
+const { errorHandler, pageNotFoundHandler } = require("./api/controllers/errorControllers")
 
 
 const app = express()
