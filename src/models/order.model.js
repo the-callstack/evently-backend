@@ -1,6 +1,6 @@
 'use strict';
 
-const createOrderTable = (sequelize, DataTypes) => sequelize.define('CreateOrderTable', {
+const createOrderTable = (sequelize, DataTypes) => sequelize.define('Order', {
     orderDate: {
         type: DataTypes.DATE,
         allowNull: false

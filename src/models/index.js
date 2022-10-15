@@ -12,17 +12,9 @@ const sequelize = new Sequelize(
     // sequelizeOption
 )
 
-
 const itemSaleModel = createItemSaleTable(sequelize, DataTypes);
 const itemRentalModel = createItemRentalTable(sequelize, DataTypes);
 const orderModel = createOrderTable(sequelize, DataTypes);
-
-
-
-
-
-
-
 
 module.exports = {
     sequelize
