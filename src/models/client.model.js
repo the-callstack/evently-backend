@@ -1,6 +1,6 @@
 'use strict';
 
-const Client = (sequelize, DataTypes) =>
+const createClientModel = (sequelize, DataTypes) =>
   sequelize.define('Client', {
     clientname: {
       type: DataTypes.STRING,
@@ -33,4 +33,4 @@ const Client = (sequelize, DataTypes) =>
     },
   });
 
-module.exports = Client;
+module.exports = createClientModel;

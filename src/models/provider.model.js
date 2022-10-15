@@ -1,6 +1,6 @@
 'use strict';
 
-const Provider = (sequelize, DataTypes) =>
+const createProviderModel = (sequelize, DataTypes) =>
   sequelize.define('Provider', {
     providername: {
       type: DataTypes.STRING,
@@ -29,4 +29,4 @@ const Provider = (sequelize, DataTypes) =>
     },
   });
 
-module.exports = Provider;
+module.exports = createProviderModel;
