@@ -7,8 +7,21 @@ const createProviderModel = (sequelize, DataTypes) =>
       allowNull: false,
     },
     address: {
-      type: DataTypes.STRING,
-      unique: true,
+      type: DataTypes.ENUM(
+        'irbid',
+        'mafraq',
+        'jerash',
+        'ajloun',
+        'amman',
+        'zarqa',
+        'balqa',
+        'madaba',
+        'karak',
+        'aqaba',
+        'maan',
+        'tafilah'
+      ),
+      defaultValue: 'amman',
     },
     password: {
       type: DataTypes.STRING,
@@ -21,6 +34,9 @@ const createProviderModel = (sequelize, DataTypes) =>
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     phone: {
       type: DataTypes.INTEGER,
