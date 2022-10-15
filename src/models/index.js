@@ -23,8 +23,8 @@ const itemRentalModel = createItemRentalTable(sequelize, DataTypes);
 const orderModel = createOrderTable(sequelize, DataTypes);
 const eventModel = createEventModel(sequelize, DataTypes);
 const categoryModel = createCategoryModel(sequelize, DataTypes);
-const providerModel = createProviderModel(Sequelize, DataTypes);
-const clientModel = require(Sequelize, DataTypes);
+const providerModel = createProviderModel(sequelize, DataTypes);
+const clientModel = createClientModel(sequelize, DataTypes);
 
 
 
