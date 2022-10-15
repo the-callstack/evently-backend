@@ -1,6 +1,6 @@
 'use strict';
 
-const createItemSaleModel = (sequelize, DataTypes) => sequelize.define('saleItem', {
+const createItemSaleModel = (sequelize, DataTypes) => sequelize.define('SaleItem', {
     IMG: {
         type: DataTypes.STRING
     },
