@@ -1,6 +1,7 @@
 'use strict'
 
 const { DataTypes, Sequelize, DATABASE_URL, sequelizeOption } = require("../config");
+const createCategoryModel = require("./category.model");
 const createEventModel = require("./event.model");
 
 
@@ -9,18 +10,8 @@ const sequelize = new Sequelize(
     // sequelizeOption
 );
 
-
-
-
 const eventModel = createEventModel(sequelize, DataTypes);
-
-
-
-
-
-
-
-
+const categoryModel = createCategoryModel(sequelize, DataTypes);
 
 
 
