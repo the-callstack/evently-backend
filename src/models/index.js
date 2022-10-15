@@ -32,6 +32,40 @@ const providerModel = createProviderModel(sequelize, DataTypes);
 const clientModel = createClientModel(sequelize, DataTypes);
 
 
+providerModel.hasMany(storeModel, { as: 'stores' })
+storeModel.belongsTo(providerModel)
+
+storeModel.hasMany(saleItemModel, { as: 'saleItems' })
+saleItemModel.belongsTo(storeModel)
+
+storeModel.hasMany(rentalItemModel, { as: 'rentalItems' })
+rentalItemModel.belongsTo(storeModel)
+
+rentalItemModel.hasMany(rentalTrackingmodel, { as: 'trackers' })
+rentalTrackingmodel.belongsTo(rentalItemModel)
+
+categoryModel.hasMany(saleItemModel, { as: 'saleItems' })
+saleItemModel.belongsTo(categoryModel)
+
+categoryModel.hasMany(rentalItemModel, { as: 'rentalItems' })
+rentalItemModel.belongsTo(categoryModel)
+
+clientModel.hasMany(orderModel, { as: 'orders' })
+orderModel.belongsTo(clientModel)
+
+orderModel.hasMany(orderDetailsModel, { as: 'details' })
+orderDetailsModel.belongsTo(orderModel)
+
+saleItemModel.hasMany(orderDetailsModel, { as: 'orders' })
+orderDetailsModel.belongsTo(saleItemModel)
+
+rentalItemModel.hasMany(orderDetailsModel, { as: 'orders' })
+orderDetailsModel.belongsTo(rentalItemModel)
+
+eventModel.belongsToMany(categoryModel, { as: 'categories', through: 'EventsCategory' })
+categoryModel.belongsToMany(eventModel, { as: 'event', through: 'EventsCategory' })
+
+
 
 
 
