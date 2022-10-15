@@ -26,7 +26,7 @@ const orderModel = createOrderTable(sequelize, DataTypes);
 
 module.exports = {
     sequelize,
-    itemSale,
-    itemRental,
-    order
+    itemSale:itemSaleModel,
+    itemRental:itemRentalModel,
+    order:orderModel
 }
