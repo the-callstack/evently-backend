@@ -2,6 +2,8 @@
 
 const { express } = require("./config")
 const { cors, morgan, cookieParser } = require('./config/utils')
+const errorHandler = require("./controllers/errorControllers/error-handler")
+const pageNotFoundHandler = require("./controllers/errorControllers/pageNotFundHandler")
 
 
 const app = express()
@@ -22,6 +24,9 @@ const start = (port) => {
     })
 }
 
+app.get('*', pageNotFoundHandler)
+
+app.use(errorHandler)
 
 
 module.exports = {
