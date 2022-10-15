@@ -1,7 +1,7 @@
 "use strict";
 
-const createOrderDetailsTable = (sequelize, DataTypes) =>
-  sequelize.define("OrderDetail", {
+const createOrderDetailsTable = (sequelize, DataTypes) => {
+  return sequelize.define("OrderDetail", {
     price: {
       type: DataTypes.FLOAT,
       allowNull: false,
@@ -11,5 +11,6 @@ const createOrderDetailsTable = (sequelize, DataTypes) =>
       allowNull: false,
     },
   });
+};
 
 module.exports = createOrderDetailsTable;
