@@ -15,8 +15,8 @@ const createStoreModel = require('./store.model')
 const createRentalTrackingModel = require('./rentalTracking.model');
 
 const sequelize = new Sequelize(
-  DATABASE_URL
-  // sequelizeOption
+  DATABASE_URL,
+  sequelizeOption
 );
 
 
