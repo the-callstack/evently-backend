@@ -3,20 +3,21 @@
 
 const { DataTypes, Sequelize, DATABASE_URL, sequelizeOption } = require("../config")
 
-const createItemSaleModel = require('./itemSale.model')
-const createItemRentalModel = require('./itemRental.model')
-const createOrderModel = require('./order.model')
-const createCategoryModel = require("./category.model");
-const createEventModel = require("./event.model");
-const createProviderModel = require('./provider.model');
-const createClientModel = require('./client.model');
-const createOrderDetailsModel = require('./orderDetails.model')
-const createStoreModel = require('./store.model')
-const createRentalTrackingModel = require('./rentalTracking.model');
+const createItemSaleModel = require('./schemas/itemSale.model')
+const createItemRentalModel = require('./schemas/itemRental.model')
+const createOrderModel = require('./schemas/order.model')
+const createCategoryModel = require("./schemas/category.model");
+const createEventModel = require("./schemas/event.model");
+const createUsertModel = require('./schemas/user.model');
+const createOrderDetailsModel = require('./schemas/orderDetails.model')
+const createStoreModel = require('./schemas/store.model')
+const createRentalTrackingModel = require('./schemas/rentalTracking.model');
+
+const createCollections = require("../api/collections/composer");
 
 const sequelize = new Sequelize(
   DATABASE_URL,
-  sequelizeOption
+  // sequelizeOption
 );
 
 
@@ -28,12 +29,11 @@ const rentalItemModel = createItemRentalModel(sequelize, DataTypes);
 const orderModel = createOrderModel(sequelize, DataTypes);
 const eventModel = createEventModel(sequelize, DataTypes);
 const categoryModel = createCategoryModel(sequelize, DataTypes);
-const providerModel = createProviderModel(sequelize, DataTypes);
-const clientModel = createClientModel(sequelize, DataTypes);
+const userModel = createUsertModel(sequelize, DataTypes);
 
 
-providerModel.hasMany(storeModel, { as: 'stores' })
-storeModel.belongsTo(providerModel)
+userModel.hasMany(storeModel, { as: 'stores' })
+storeModel.belongsTo(userModel)
 
 storeModel.hasMany(saleItemModel, { as: 'saleItems' })
 saleItemModel.belongsTo(storeModel)
@@ -50,8 +50,8 @@ saleItemModel.belongsTo(categoryModel)
 categoryModel.hasMany(rentalItemModel, { as: 'rentalItems' })
 rentalItemModel.belongsTo(categoryModel)
 
-clientModel.hasMany(orderModel, { as: 'orders' })
-orderModel.belongsTo(clientModel)
+userModel.hasMany(orderModel, { as: 'orders' })
+orderModel.belongsTo(userModel)
 
 orderModel.hasMany(orderDetailsModel, { as: 'details' })
 orderDetailsModel.belongsTo(orderModel)
@@ -67,8 +67,7 @@ categoryModel.belongsToMany(eventModel, { as: 'event', through: 'EventsCategory'
 
 
 
-
-
+const userCollection = createCollections(userModel)
 
 
 
@@ -79,4 +78,5 @@ categoryModel.belongsToMany(eventModel, { as: 'event', through: 'EventsCategory'
 
 module.exports = {
   sequelize,
+  userCollection
 };
