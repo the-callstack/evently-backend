@@ -1,18 +1,21 @@
 'use strict';
 
-const createClientModel = (sequelize, DataTypes) =>
-  sequelize.define('Client', {
-    clientname: {
+const createUsertModel = (sequelize, DataTypes) =>
+  sequelize.define('User', {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    role: {
+      type: DataTypes.ENUM('admin', 'client', 'provider'),
+      defaultValue: 'client',
+      allowNull: false
+    },
     birthday: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
+      type: DataTypes.INTEGER
     },
     avatar: {
-      type: DataTypes.STRING,
-      allowNull: true,
+      type: DataTypes.TEXT
     },
     about: {
       type: DataTypes.STRING,
@@ -36,4 +39,4 @@ const createClientModel = (sequelize, DataTypes) =>
     },
   });
 
-module.exports = createClientModel;
+module.exports = createUsertModel;

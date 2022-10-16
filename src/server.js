@@ -1,17 +1,19 @@
 'use strict'
 
 const { express } = require("./config")
-const { cors, morgan, cookieParser } = require('./config/utils')
+const { cors, morgan, cookieParser, helmet } = require('./config/utils')
 const { errorHandler, pageNotFoundHandler } = require("./api/controllers/errorControllers")
-
+const { userRouter } = require("./api/routes/User/user.routes")
 
 const app = express()
 
-app.use(morgan('tiny'))
+app.use(morgan('dev'))
 app.use(cors())
 app.use(cookieParser())
 app.use(express.json())
+app.use(helmet())
 
+app.use('/user', userRouter)
 app.get('/', (req, res) => {
     res.status(200).send('Hello World')
 })

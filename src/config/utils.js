@@ -6,6 +6,7 @@ const base64 = require('base-64');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const helmet = require('helmet')
 
 module.exports = {
   morgan,
@@ -14,4 +15,5 @@ module.exports = {
   bcrypt,
   cookieParser,
   jwt,
+  helmet
 };
