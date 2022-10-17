@@ -4,7 +4,9 @@ const read = (model) => {
     return {
         readAllRecords: async () => {
             try {
-                return await model.findAll({})
+                return await model.findAll({
+                    attributes: { exclude: ['password'] }
+                })
             } catch (e) {
                 throw new Error(`Server Error`)
             }
@@ -18,7 +20,8 @@ const populateById = (model) => {
             if (args) {
                 const data = args.map((model) => {
                     return {
-                        association: model
+                        association: model,
+                        attributes: { exclude: ['password'] }
                     }
                 })
                 try {
@@ -67,7 +70,8 @@ const update = (model) => {
             try {
                 return await model.update(data, {
                     where: { id },
-                    returning: true
+                    returning: true,
+                    attributes: { exclude: ['password', 'refresh_token'] }
                 })
             } catch (e) {
                 throw new Error(`Server Error`)
@@ -98,7 +102,8 @@ const readAllRecords = (model) => {
             if (args) {
                 const data = args.map((model) => {
                     return {
-                        association: model
+                        association: model,
+                        attributes: { exclude: ['password'] }
                     }
                 })
                 try {
@@ -114,8 +119,10 @@ const readAllRecords = (model) => {
                 return await model.findAll({
                     include: {
                         all: true,
-                        nested: true
-                    }
+                        nested: true,
+                        attributes: { exclude: ['password'] }
+                    },
+                    attributes: { exclude: ['password'] }
                 })
             } catch (e) {
                 throw new Error(`Server Error`)
@@ -125,7 +132,7 @@ const readAllRecords = (model) => {
     }
 }
 
-const createCollections = (model) => {
+const createGenericCollections = (model) => {
     return {
         ...read(model),
         ...update(model),
@@ -136,4 +143,4 @@ const createCollections = (model) => {
     }
 }
 
-module.exports = createCollections
+module.exports = createGenericCollections
