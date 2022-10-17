@@ -17,7 +17,7 @@ const createGenericCollections = require("../api/collections/composer");
 
 const sequelize = new Sequelize(
   DATABASE_URL,
-  // sequelizeOption
+  sequelizeOption
 );
 
 
