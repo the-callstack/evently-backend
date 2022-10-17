@@ -1,14 +1,15 @@
 'use strict'
-const { generateAccessToken, generateRefreshToken, hashPassword } = require('/TokenGenerator')
-const userCollection = require('./errorControllers/index')
 
-const signin = async (req, res) => {
+
+
+
+
+const signin = async (req, res,next) => {
     try {
         const user = req.body
-        const token = generateAccessToken(user)
-        const refresh_token = generateRefreshToken(user)
-
-        user.access_token = token
+        const token = generateAccessToken(user.id)
+        const refresh_token = generateRefreshToken(user.id)
+        user[accessToken] = token
         return res.status(200)
             .cookie('refresh_token', refresh_token, {
                 httpOnly: true,
@@ -23,8 +24,7 @@ const signin = async (req, res) => {
 }
 
 
-const signup = async (req, res) => {
-    hashPassword
+const signup = async (req, res,next) => {
     try {
         const newUser = req.body;
         newUser.password = hashPassword(req.body.password)
@@ -32,13 +32,11 @@ const signup = async (req, res) => {
 
         const createdUser = await userCollection.create(newUser)
         const addedUser = omit(createdUser.dataValues, ['password'])
-        const token = generateAccessToken(newUser)
-        const refresh_token = generateRefreshToken(newUser)
+        const token = generateAccessToken(newUser.id)
 
         addedUser.access_token = token
-        await createdUser.update({ refresh_token })
         return res.status(201)
-            .cookie('refresh_token', refresh_token, {
+            .cookie( {
                 httpOnly: true,
                 secure: true,
                 sameSite: 'None',
@@ -51,7 +49,7 @@ const signup = async (req, res) => {
     }
 }
 
-const signout = async (req, res) => {
+const signout = async (req, res,next) => {
     try {
         res.clearCookie('refresh_token', {
             httpOnly: true,
