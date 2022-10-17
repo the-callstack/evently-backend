@@ -16,8 +16,8 @@ const createRentalTrackingModel = require('./schemas/rentalTracking.model');
 const createGenericCollections = require("../api/collections/composer");
 
 const sequelize = new Sequelize(
-  DATABASE_URL,
-  sequelizeOption
+  DATABASE_URL
+  // sequelizeOption
 );
 
 
