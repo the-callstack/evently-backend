@@ -1,6 +1,6 @@
 "use strict";
 
-const { base64 } = require("../../../../config/utils");
+const { base64 } = require("../../../config/utils");
 
 const decodeHeaders = (basicAuth) => {
   const encoded = basicAuth.split(" ").pop();

@@ -14,6 +14,26 @@ const read = (model) => {
     }
 }
 
+
+
+const findByEmail = (model) => {
+    return {
+        findOneByEmail: async (email) => {
+            try {
+                return await model.findOne({
+                    where: { email }
+                })
+            } catch (e) {
+                throw new Error(`Server Error`)
+            }
+        }
+    }
+
+}
+
+
+
+
 const populateById = (model) => {
     return {
         populateById: async (id, args) => {
@@ -143,4 +163,14 @@ const createGenericCollections = (model) => {
     }
 }
 
-module.exports = createGenericCollections
+
+const createAuthCollection = (model) => {
+    return {
+        ...findByEmail(model)
+    }
+}
+
+module.exports = {
+    createGenericCollections,
+    createAuthCollection
+}

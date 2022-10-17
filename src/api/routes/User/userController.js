@@ -1,16 +1,24 @@
 'use strict'
 
+const { userCollection } = require("../../../models")
+const { hashPassword } = require("../../controllers/auth-controllers/HashPassword")
+const { generateAccessToken, generateRefreshToken } = require("../../controllers/auth-controllers/TokenGenerator")
+const { AppError } = require("../../controllers/errorControllers")
+const { omit } = require('./../../../config/utils')
 
 
 
 
-const signin = async (req, res,next) => {
+const signin = async (req, res, next) => {
     try {
         const user = req.body
-        const token = generateAccessToken(user.id)
-        const refresh_token = generateRefreshToken(user.id)
-        user[accessToken] = token
-        return res.status(200)
+        const payload = {
+            userId: user.id
+        }
+        const token = generateAccessToken(payload)
+        const refresh_token = generateRefreshToken(payload)
+        user.accessToken = token
+        res.status(200)
             .cookie('refresh_token', refresh_token, {
                 httpOnly: true,
                 secure: true,
@@ -24,17 +32,23 @@ const signin = async (req, res,next) => {
 }
 
 
-const signup = async (req, res,next) => {
+const signup = async (req, res, next) => {
+
     try {
         const newUser = req.body;
-        newUser.password = hashPassword(req.body.password)
 
+        newUser.password = await hashPassword(req.body.password)
         const createdUser = await userCollection.create(newUser)
         const addedUser = omit(createdUser.dataValues, ['password'])
-        const token = generateAccessToken(newUser.id)
-        addedUser[accesstoken ]= token
-        return res.status(201)
-            .cookie( {
+        const payload = {
+            userId: addedUser.id
+        }
+        const token = generateAccessToken(payload)
+        const refresh_token = generateRefreshToken(payload)
+
+        addedUser.accesstoken = token
+        res.status(201)
+            .cookie('refresh_token', refresh_token, {
                 httpOnly: true,
                 secure: true,
                 sameSite: 'None',
@@ -47,7 +61,7 @@ const signup = async (req, res,next) => {
     }
 }
 
-const signout = async (req, res,next) => {
+const signout = async (req, res, next) => {
     try {
         res.clearCookie('refresh_token', {
             httpOnly: true,
@@ -60,8 +74,8 @@ const signout = async (req, res,next) => {
     }
 }
 
-module.export = {
+module.exports = {
     signin,
-    signout,
+    signup,
     signout
 }
