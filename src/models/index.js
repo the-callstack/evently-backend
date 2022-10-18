@@ -69,6 +69,7 @@ categoryModel.belongsToMany(eventModel, { as: 'event', through: 'EventsCategory'
 
 const userCollection = createGenericCollections(userModel)
 const authCollection = createAuthCollection(userModel)
+const supplierCollection = createGenericCollections(storeModel)
 
 
 
@@ -80,5 +81,6 @@ const authCollection = createAuthCollection(userModel)
 module.exports = {
   sequelize,
   userCollection,
-  authCollection
+  authCollection,
+  supplierCollection
 };
