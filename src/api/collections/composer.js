@@ -190,7 +190,21 @@ const createAuthCollection = (model) => {
     }
 }
 
+
+const createSaleItemCollection = (model) => {
+    return {
+        ...canReadAllRecords(model),
+        ...canPopulateOneRecordById(model),
+        ...canUpdateRecord(model),
+        ...canDestroyRecord(model),
+        ...canCreateOneRecord(model)
+    }
+}
+
+
+
 module.exports = {
     createGenericCollections,
-    createAuthCollection
+    createAuthCollection,
+    createSaleItemCollection
 }
