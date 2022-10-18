@@ -18,7 +18,7 @@ const getAll = async ( req, res, next ) => {
 }
 
 const createStore = async (req, res, next) => {
-  let storeData = req.body;
+  const storeData = req.body;
 
   try {
     const store = await supplierCollection.create(storeData);
@@ -43,7 +43,7 @@ const deleteStore = async (req, res, next) => {
 }
 
 const updateStore = async ( req, res, next ) => {
-  let newData = req.body;
+  const newData = req.body;
   const { id } = req.params;
   try {
     const newStore = await supplierCollection.update(id,newData);
