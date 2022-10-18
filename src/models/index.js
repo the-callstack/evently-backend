@@ -77,8 +77,15 @@ const authCollection = createAuthCollection(userModel)
 
 
 
+const orderCollection = createGenericCollections(orderModel);
+
+
+
+
+
 module.exports = {
   sequelize,
   userCollection,
-  authCollection
+  authCollection,
+  orderCollection,
 };
