@@ -6,7 +6,7 @@ const { authCollection } = require("../../../models")
 
 
 const isEmailExist = async (email) => {
-    const user = await authCollection.findOneByEmail(email)
+    const user = await authCollection.findOneByEmailOrPhone(email)
     if (user) {
         return user
     } else {

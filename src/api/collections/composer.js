@@ -20,7 +20,7 @@ const canReadAllRecords = (model) => {
 
 const canFindByEmailOrPhone = (model) => {
     return {
-        findOneByEmailOrPhone: async (email, phone) => {
+        findOneByEmailOrPhone: async (email, phone = 0) => {
             try {
                 return await model.findOne({
                     where: {
