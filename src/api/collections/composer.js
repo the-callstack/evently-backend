@@ -1,6 +1,6 @@
 'use strict'
 
-const read = (model) => {
+const canReadAllRecords = (model) => {
     return {
         readAllRecords: async () => {
             try {
@@ -16,7 +16,7 @@ const read = (model) => {
 
 
 
-const findByEmail = (model) => {
+const canFindByEmail = (model) => {
     return {
         findOneByEmail: async (email) => {
             try {
@@ -32,9 +32,7 @@ const findByEmail = (model) => {
 }
 
 
-
-
-const populateById = (model) => {
+const canPopulateOneRecordById = (model) => {
     return {
         populateById: async (id, args) => {
             if (args) {
@@ -71,7 +69,7 @@ const populateById = (model) => {
     }
 }
 
-const createRecord = (model) => {
+const canCreateOneRecord = (model) => {
     return {
         create: async (data) => {
             try {
@@ -84,7 +82,7 @@ const createRecord = (model) => {
 }
 
 
-const update = (model) => {
+const canUpdateRecord = (model) => {
     return {
         update: async (id, data) => {
             try {
@@ -100,7 +98,7 @@ const update = (model) => {
     }
 }
 
-const destroy = (model) => {
+const canDestroyRecord = (model) => {
     return {
         destroy: async (id) => {
             try {
@@ -116,7 +114,7 @@ const destroy = (model) => {
 }
 
 
-const readAllRecords = (model) => {
+const canReadPopulatedRecords = (model) => {
     return {
         readAllPopulated: async (args) => {
             if (args) {
@@ -154,19 +152,19 @@ const readAllRecords = (model) => {
 
 const createGenericCollections = (model) => {
     return {
-        ...read(model),
-        ...update(model),
-        ...destroy(model),
-        ...readAllRecords(model),
-        ...populateById(model),
-        ...createRecord(model)
+        ...canReadAllRecords(model),
+        ...canUpdateRecord(model),
+        ...canDestroyRecord(model),
+        ...canReadPopulatedRecords(model),
+        ...canPopulateOneRecordById(model),
+        ...canCreateOneRecord(model)
     }
 }
 
 
 const createAuthCollection = (model) => {
     return {
-        ...findByEmail(model)
+        ...canFindByEmail(model)
     }
 }
 
