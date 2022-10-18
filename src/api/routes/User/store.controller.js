@@ -32,7 +32,7 @@ const updateStore = async (req, res, next) => {
     const { id } = req.params;
     newStore.logoPath = req.file.path;
     newStore.logoName = req.file.filename;
-    const updatedStore = await storeCollection.create(id, newStore);
+    const updatedStore = await storeCollection.update(id, newStore);
     res.status(201).json(updatedStore);
   } catch (e) {
     next(new AppError(401, 'Cannot Update Store'));
