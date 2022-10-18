@@ -17,7 +17,7 @@ const { createGenericCollections, createAuthCollection } = require("../api/colle
 
 const sequelize = new Sequelize(
   DATABASE_URL,
-  sequelizeOption
+  // sequelizeOption
 );
 
 
@@ -77,8 +77,15 @@ const authCollection = createAuthCollection(userModel)
 
 
 
+const orderCollection = createGenericCollections(orderModel);
+
+
+
+
+
 module.exports = {
   sequelize,
   userCollection,
-  authCollection
+  authCollection,
+  orderCollection,
 };
