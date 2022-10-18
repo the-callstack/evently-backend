@@ -8,14 +8,14 @@ const express = require('express');
 const multer = require('multer');
 const { Sequelize, DataTypes } = require('sequelize');
 
-// const sequelizeOption = {
-//     dialectOptions: {
-//         ssl: {
-//             require: true,
-//             rejectUnauthorized: false
-//         }
-//     }
-// }
+const sequelizeOption = {
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
+}
 
 
 
@@ -30,6 +30,6 @@ module.exports = {
     express,
     DataTypes,
     Sequelize,
-    // sequelizeOption,
+    sequelizeOption,
     multer
 }
