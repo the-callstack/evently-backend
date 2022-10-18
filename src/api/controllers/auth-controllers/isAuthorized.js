@@ -6,10 +6,10 @@ const { AppError } = require("../errorControllers")
 
 const isAuthorized = async (req, res, next) => {
     try {
-        const { userRoles } = req.user
+        const { userRole } = req.user
         const loggedInUserId = req.user.userId
-        const ownerId = req.body.UserId
-        if (ownerId === loggedInUserId || userRoles == 'admin') {
+        const ownerId = parseInt(req.body.UserId)
+        if (ownerId === loggedInUserId || userRole == 'admin') {
             next()
         } else {
             throw new Error('Not Authorized')

@@ -78,6 +78,7 @@ const canPopulateOneRecordById = (model) => {
                         include: {
                             all: true,
                             nested: true,
+                            attributes: { exclude: ['password'] }
                         },
                         attributes: { exclude: ['password'] }
 

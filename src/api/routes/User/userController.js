@@ -46,7 +46,7 @@ const signup = async (req, res, next) => {
         const token = generateAccessToken(payload)
         const refresh_token = generateRefreshToken(payload)
 
-        addedUser.accesstoken = token
+        addedUser.accessToken = token
         res.status(201)
             .cookie('refresh_token', refresh_token, {
                 httpOnly: true,

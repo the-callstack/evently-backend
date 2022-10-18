@@ -25,8 +25,8 @@ const getAllSaleItems = async (req, res, next) => {
 
 const createSaleItem = async (req, res, next) => {
     const itemData = req.body;
-    itemData.imgPath = req.file.path
-    itemData.imgNAme = req.file.filename
+    // itemData.imgPath = req.file.path
+    // itemData.imgNAme = req.file.filename
     try {
         const newItem = await saleItemCollection.create(itemData);
         res.status(201).send(newItem);

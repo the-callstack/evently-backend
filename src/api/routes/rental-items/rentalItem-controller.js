@@ -9,8 +9,8 @@ const { AppError } = require("../../controllers/errorControllers")
 const createRentalItem = async (req, res, next) => {
     try {
         const newRentalItem = req.body
-        newRentalItem.imgPath = req.file.path
-        newRentalItem.imgName = req.file.name
+        // newRentalItem.imgPath = req.file.path
+        // newRentalItem.imgName = req.file.name
         const addedRentalItem = await rentalItemsCollection.create(newRentalItem)
         res.status(201).json(addedRentalItem)
 
@@ -22,8 +22,9 @@ const createRentalItem = async (req, res, next) => {
 
 const updateRentalItem = async (req, res, next) => {
     try {
+        const { id } = req.params
         const updatedRentalItem = req.body
-        const updatedItem = await rentalItemsCollection.update(updatedRentalItem)
+        const updatedItem = await rentalItemsCollection.update(id, updatedRentalItem)
         res.status(200).json(updatedItem)
     } catch (e) {
         next(new AppError(500, `Server Error: Item updating failed`))

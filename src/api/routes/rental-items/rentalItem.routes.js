@@ -17,4 +17,6 @@ rentalItemRouter.put('/rental/:id', isUserVerefied, isAuthorized, updateRentalIt
 rentalItemRouter.delete('/rental/:id', isUserVerefied, isAuthorized, deleteRentalItem)
 
 
-module.exports = rentalItemRouter
+module.exports = {
+    rentalItemRouter
+}
