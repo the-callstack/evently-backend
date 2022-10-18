@@ -1,11 +1,6 @@
 'use strict';
 
-const {
-  DataTypes,
-  Sequelize,
-  DATABASE_URL,
-  sequelizeOption,
-} = require('../config');
+const {DataTypes, Sequelize, DATABASE_URL, sequelizeOption } = require('../config');
 
 const createItemSaleModel = require('./schemas/itemSale.model');
 const createItemRentalModel = require('./schemas/itemRental.model');
