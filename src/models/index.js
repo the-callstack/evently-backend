@@ -1,6 +1,6 @@
 'use strict';
 
-const {DataTypes, Sequelize, DATABASE_URL, sequelizeOption } = require('../config');
+const { DataTypes, Sequelize, DATABASE_URL, sequelizeOption } = require('../config');
 
 const createItemSaleModel = require('./schemas/itemSale.model');
 const createItemRentalModel = require('./schemas/itemRental.model');
@@ -12,10 +12,7 @@ const createOrderDetailsModel = require('./schemas/orderDetails.model');
 const createStoreModel = require('./schemas/store.model');
 const createRentalTrackingModel = require('./schemas/rentalTracking.model');
 
-const {
-  createGenericCollections,
-  createAuthCollection,
-} = require('../api/collections/composer');
+const { createGenericCollections, createAuthCollection } = require('../api/collections/composer');
 
 const sequelize = new Sequelize(
   DATABASE_URL
@@ -75,6 +72,15 @@ const userCollection = createGenericCollections(userModel);
 const authCollection = createAuthCollection(userModel);
 
 const storeCollection = createGenericCollections(userModel);
+
+
+
+
+
+
+
+
+
 
 module.exports = {
   sequelize,
