@@ -3,7 +3,7 @@
 const { express } = require("./config")
 const { cors, morgan, cookieParser, helmet } = require('./config/utils')
 const { errorHandler, pageNotFoundHandler } = require("./api/controllers/errorControllers")
-const { userRouter } = require("./api/routes/User/user.routes")
+const authRouter = require("./api/routes/User/user.routes")
 
 const app = express()
 
@@ -13,7 +13,7 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(helmet())
 
-app.use('/user', userRouter)
+app.use(authRouter)
 app.get('/', (req, res) => {
     res.status(200).send('Hello World')
 })

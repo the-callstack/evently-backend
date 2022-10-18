@@ -4,7 +4,9 @@ const canReadAllRecords = (model) => {
     return {
         readAllRecords: async () => {
             try {
-                return await model.findAll({})
+                return await model.findAll({
+                    attributes: { exclude: ['password'] }
+                })
             } catch (e) {
                 throw new Error(`Server Error`)
             }
@@ -12,13 +14,32 @@ const canReadAllRecords = (model) => {
     }
 }
 
+
+
+const canFindByEmail = (model) => {
+    return {
+        findOneByEmail: async (email) => {
+            try {
+                return await model.findOne({
+                    where: { email }
+                })
+            } catch (e) {
+                throw new Error(`Server Error`)
+            }
+        }
+    }
+
+}
+
+
 const canPopulateOneRecordById = (model) => {
     return {
         populateById: async (id, args) => {
             if (args) {
                 const data = args.map((model) => {
                     return {
-                        association: model
+                        association: model,
+                        attributes: { exclude: ['password'] }
                     }
                 })
                 try {
@@ -67,7 +88,8 @@ const canUpdateRecord = (model) => {
             try {
                 return await model.update(data, {
                     where: { id },
-                    returning: true
+                    returning: true,
+                    attributes: { exclude: ['password', 'refresh_token'] }
                 })
             } catch (e) {
                 throw new Error(`Server Error`)
@@ -98,7 +120,8 @@ const canReadPopulatedRecords = (model) => {
             if (args) {
                 const data = args.map((model) => {
                     return {
-                        association: model
+                        association: model,
+                        attributes: { exclude: ['password'] }
                     }
                 })
                 try {
@@ -114,8 +137,10 @@ const canReadPopulatedRecords = (model) => {
                 return await model.findAll({
                     include: {
                         all: true,
-                        nested: true
-                    }
+                        nested: true,
+                        attributes: { exclude: ['password'] }
+                    },
+                    attributes: { exclude: ['password'] }
                 })
             } catch (e) {
                 throw new Error(`Server Error`)
@@ -125,7 +150,7 @@ const canReadPopulatedRecords = (model) => {
     }
 }
 
-const createCollections = (model) => {
+const createGenericCollections = (model) => {
     return {
         ...canReadAllRecords(model),
         ...canUpdateRecord(model),
@@ -136,4 +161,14 @@ const createCollections = (model) => {
     }
 }
 
-module.exports = createCollections
+
+const createAuthCollection = (model) => {
+    return {
+        ...canFindByEmail(model)
+    }
+}
+
+module.exports = {
+    createGenericCollections,
+    createAuthCollection
+}
