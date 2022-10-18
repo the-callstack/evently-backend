@@ -110,7 +110,7 @@ const canUpdateRecord = (model) => {
                 return await model.update(data, {
                     where: { id },
                     returning: true,
-                    attributes: { exclude: ['password', 'refresh_token'] }
+                    attributes: { exclude: ['password'] }
                 })
             } catch (e) {
                 throw new Error(`Server Error`)

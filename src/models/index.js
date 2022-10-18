@@ -77,8 +77,23 @@ const authCollection = createAuthCollection(userModel)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+const rentalItemsCollection = createGenericCollections(rentalItemModel)
+
 module.exports = {
   sequelize,
   userCollection,
-  authCollection
+  authCollection,
+  rentalItemsCollection
 };
