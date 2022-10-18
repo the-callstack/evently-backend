@@ -13,7 +13,7 @@ const createOrderDetailsModel = require('./schemas/orderDetails.model')
 const createStoreModel = require('./schemas/store.model')
 const createRentalTrackingModel = require('./schemas/rentalTracking.model');
 
-const { createGenericCollections, createAuthCollection } = require("../api/collections/composer");
+const { createGenericCollections, createAuthCollection ,createSaleItemCollection} = require("../api/collections/composer");
 
 const sequelize = new Sequelize(
   DATABASE_URL,
@@ -69,6 +69,7 @@ categoryModel.belongsToMany(eventModel, { as: 'event', through: 'EventsCategory'
 
 const userCollection = createGenericCollections(userModel)
 const authCollection = createAuthCollection(userModel)
+const saleItemCollection=createSaleItemCollection(saleItemModel)
 
 
 
@@ -80,5 +81,6 @@ const authCollection = createAuthCollection(userModel)
 module.exports = {
   sequelize,
   userCollection,
-  authCollection
+  authCollection,
+  saleItemCollection
 };
