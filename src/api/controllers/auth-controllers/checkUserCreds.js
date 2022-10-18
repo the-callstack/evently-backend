@@ -18,10 +18,10 @@ const checkUserCreds = async (req, res, next) => {
             req.body = omit(user.dataValues, ['password'])
             next()
         } else {
-            throw new Error('Username or Password are incorrect')
+            throw new Error('Email or Password are incorrect')
         }
     } catch (e) {
-        next(new AppError(500, 'Username or Password are incorrect'))
+        next(new AppError(500, 'Email or Password are incorrect'))
     }
 }
 

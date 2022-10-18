@@ -84,10 +84,25 @@ const orderCollection = createGenericCollections(orderModel);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+const rentalItemsCollection = createGenericCollections(rentalItemModel)
+
 module.exports = {
   sequelize,
   userCollection,
   authCollection,
+  rentalItemsCollection,
   saleItemCollection,
   storeCollection,
   orderCollection

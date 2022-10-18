@@ -6,16 +6,16 @@ const { AppError } = require("../errorControllers")
 
 const isAuthorized = async (req, res, next) => {
     try {
-        const { userId, userRoles } = req.user
-        const id = req.params.id
-        const store = await storeCollection.populateById(id, next)
-        if (store.dataValues.UserId === userId || userRoles == 'admin') {
+        const { userRoles } = req.user
+        const loggedInUserId = req.user.userId
+        const ownerId = req.body.UserId
+        if (ownerId === loggedInUserId || userRoles == 'admin') {
             next()
         } else {
             throw new Error('Not Authorized')
         }
     } catch (e) {
-        next(new AppError(401, e.mssage))
+        next(new AppError(401, e.message))
     }
 }
 
