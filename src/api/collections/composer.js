@@ -1,5 +1,7 @@
 'use strict'
 
+const { Op } = require("../../config")
+
 const canReadAllRecords = (model) => {
     return {
         readAllRecords: async () => {
@@ -16,20 +18,39 @@ const canReadAllRecords = (model) => {
 
 
 
-const canFindByEmail = (model) => {
+const canFindByEmailOrPhone = (model) => {
     return {
-        findOneByEmail: async (email) => {
+        findOneByEmailOrPhone: async (email, phone) => {
             try {
                 return await model.findOne({
-                    where: { email }
+                    where: {
+                        [Op.or]: [
+                            { email },
+                            { phone }
+                        ]
+                    }
                 })
             } catch (e) {
                 throw new Error(`Server Error`)
             }
         }
     }
-
 }
+
+
+// const canFindByPhone = (model) => {
+//     return {
+//         findOneByPhone: async (phone) => {
+//             try {
+//                 return await model.findOne({
+//                     where: { phone }
+//                 })
+//             } catch (e) {
+//                 throw new Error(`Server Error`)
+//             }
+//         }
+//     }
+// }
 
 
 const canPopulateOneRecordById = (model) => {
@@ -164,7 +185,8 @@ const createGenericCollections = (model) => {
 
 const createAuthCollection = (model) => {
     return {
-        ...canFindByEmail(model)
+        ...canFindByEmailOrPhone(model),
+        // ...canFindByPhone(model)
     }
 }
 

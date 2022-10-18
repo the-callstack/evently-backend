@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== "production") {
 
 const express = require('express');
 const multer = require('multer');
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, Op } = require('sequelize');
 
 const sequelizeOption = {
     dialectOptions: {
@@ -31,5 +31,6 @@ module.exports = {
     DataTypes,
     Sequelize,
     sequelizeOption,
-    multer
+    multer,
+    Op
 }

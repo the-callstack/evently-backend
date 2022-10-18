@@ -35,9 +35,7 @@ const signin = async (req, res, next) => {
 
 const signup = async (req, res, next) => {
     try {
-        const newUser = req.body;
-        newUser.avatarPath = req.file.path
-        newUser.avatarName = req.file.filename
+        const newUser = req.body
         newUser.password = await hashPassword(req.body.password)
         const createdUser = await userCollection.create(newUser)
         const addedUser = omit(createdUser.dataValues, ['password'])
