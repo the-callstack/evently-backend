@@ -1,7 +1,10 @@
 'use strict';
 
 const createItemSaleModel = (sequelize, DataTypes) => sequelize.define('SaleItem', {
-    IMG: {
+    imgPath: {
+        type: DataTypes.TEXT
+    },
+    imgName: {
         type: DataTypes.STRING
     },
     name: {

@@ -11,14 +11,34 @@ const createUsertModel = (sequelize, DataTypes) =>
       defaultValue: 'client',
       allowNull: false
     },
+    address: {
+      type: DataTypes.ENUM(
+        'irbid',
+        'mafraq',
+        'jerash',
+        'ajloun',
+        'amman',
+        'zarqa',
+        'balqa',
+        'madaba',
+        'karak',
+        'aqaba',
+        'maan',
+        'tafilah'
+      ),
+      defaultValue: 'amman',
+    },
     birthday: {
       type: DataTypes.INTEGER
     },
-    avatar: {
+    avatarPath: {
       type: DataTypes.TEXT
     },
+    avatarName: {
+      type: DataTypes.STRING
+    },
     about: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     password: {
       type: DataTypes.STRING,

@@ -8,6 +8,12 @@ const createCategoryModel = (sequelize, DataTypes) => {
       type: DataTypes.STRING,//to be discussed
       allowNull: false,
     },
+    catImgPath: {
+      type: DataTypes.TEXT
+    },
+    catImgName: {
+      type: DataTypes.STRING
+    }
   });
 
 

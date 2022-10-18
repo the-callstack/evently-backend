@@ -6,8 +6,28 @@ const createStoreModel = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    location: {
-      type: DataTypes.STRING,
+    logoPath: {
+      type: DataTypes.TEXT
+    },
+    logoName: {
+      type: DataTypes.STRING
+    },
+    address: {
+      type: DataTypes.ENUM(
+        'irbid',
+        'mafraq',
+        'jerash',
+        'ajloun',
+        'amman',
+        'zarqa',
+        'balqa',
+        'madaba',
+        'karak',
+        'aqaba',
+        'maan',
+        'tafilah'
+      ),
+      defaultValue: 'amman',
       allowNull: false,
     },
     phone: {
