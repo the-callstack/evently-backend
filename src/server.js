@@ -8,6 +8,7 @@ const { storeRoutes } = require("./api/routes/store/store.routes")
 const { saleItemRouter } = require("./api/routes/saleItem/saleItem.routes")
 const { rentalItemRouter } = require("./api/routes/rental-items/rentalItem.routes")
 const { orderRouter } = require("./api/routes/Order/order.routes")
+const { orderDetailsRouter } = require("./api/routes/order-details/orderDetails.routes")
 
 const app = express()
 
@@ -17,7 +18,7 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(helmet())
 
-
+app.use(orderDetailsRouter)
 app.use(orderRouter)
 app.use(storeRoutes)
 app.use(rentalItemRouter)

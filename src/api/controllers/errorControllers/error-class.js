@@ -1,10 +1,10 @@
 'use strict'
 
 class AppError extends Error {
-    constructor(status, message) {
+    constructor(status, msg) {
         super(),
             this.status = status,
-            this.message = message
+            this.msg = msg
     }
 }
 

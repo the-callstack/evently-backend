@@ -77,7 +77,7 @@ const canPopulateOneRecordById = (model) => {
                         where: { id },
                         include: {
                             all: true,
-                            nested: true,
+                            // nested: true,
                             attributes: { exclude: ['password'] }
                         },
                         attributes: { exclude: ['password'] }
@@ -99,6 +99,38 @@ const canCreateOneRecord = (model) => {
             } catch (e) {
                 throw new Error(`Server Error`)
             };
+        }
+    }
+}
+
+const canCreateInBulk = (model) => {
+    return {
+        createInBulk: async (data) => {
+            try {
+                return await model.bulkCreate(data)
+            } catch (error) {
+                throw new Error(error.message)
+            }
+        }
+    }
+}
+
+
+const canCreateWithNested = (model) => {
+    return {
+        createWithNested: async (data, children) => {
+            const associated = children.map((child) => {
+                return {
+                    association: child,
+
+                }
+            })
+            return await model.create(
+                data,
+                {
+                    include: [...associated]
+                }
+            )
         }
     }
 }
@@ -159,7 +191,7 @@ const canReadPopulatedRecords = (model) => {
                 return await model.findAll({
                     include: {
                         all: true,
-                        nested: true,
+                        // nested: true,
                         attributes: { exclude: ['password'] }
                     },
                     attributes: { exclude: ['password'] }
@@ -167,6 +199,25 @@ const canReadPopulatedRecords = (model) => {
             } catch (e) {
                 throw new Error(`Server Error`)
 
+            }
+        }
+    }
+}
+
+
+const canUpdateInBulk = (model) => {
+    return {
+        updateInBulk: async (data, fields) => {
+            try {
+                return model.bulkCreate(
+                    data,
+                    {
+                        updateOnDuplicate: fields,
+                    }
+
+                )
+            } catch (error) {
+                throw new Error(error.message)
             }
         }
     }
@@ -184,6 +235,13 @@ const createGenericCollections = (model) => {
 }
 
 
+const createTrackerCollection = (model) => {
+    return {
+        ...canCreateOneRecord(model),
+        ...canUpdateInBulk(model)
+    }
+}
+
 const createAuthCollection = (model) => {
     return {
         ...canFindByEmailOrPhone(model),
@@ -191,6 +249,25 @@ const createAuthCollection = (model) => {
     }
 }
 
+
+const createOrderCollection = (model) => {
+    return {
+        ...canCreateWithNested(model),
+        ...canReadAllRecords(model),
+        ...canUpdateRecord(model),
+        ...canDestroyRecord(model),
+        ...canReadPopulatedRecords(model),
+        ...canPopulateOneRecordById(model),
+        ...canCreateOneRecord(model)
+    }
+}
+
+
+const createOrderDetailsCollection = (model) => {
+    return {
+        ...canCreateInBulk(model)
+    }
+}
 
 const createSaleItemCollection = (model) => {
     return {
@@ -207,5 +284,8 @@ const createSaleItemCollection = (model) => {
 module.exports = {
     createGenericCollections,
     createAuthCollection,
-    createSaleItemCollection
+    createSaleItemCollection,
+    createOrderDetailsCollection,
+    createOrderCollection,
+    createTrackerCollection
 }
