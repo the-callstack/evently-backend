@@ -13,7 +13,7 @@ const createStoreModel = require('./schemas/store.model');
 const createRentalTrackingModel = require('./schemas/rentalTracking.model');
 
 
-const { createGenericCollections, createAuthCollection, createSaleItemCollection } = require("../api/collections/composer");
+const { createGenericCollections, createAuthCollection, createSaleItemCollection, createOrderDetailsCollection, createOrderCollection, createTrackerCollection } = require("../api/collections/composer");
 
 
 const sequelize = new Sequelize(
@@ -78,25 +78,18 @@ const userCollection = createGenericCollections(userModel);
 const authCollection = createAuthCollection(userModel);
 const storeCollection = createGenericCollections(storeModel);
 const saleItemCollection = createSaleItemCollection(saleItemModel)
-const orderCollection = createGenericCollections(orderModel);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const orderDetailsCollection = createOrderDetailsCollection(orderDetailsModel)
 const rentalItemsCollection = createGenericCollections(rentalItemModel)
+
+const rentalTrackerCollection = createTrackerCollection(rentalTrackingmodel)
+const orderCollection = createOrderCollection(orderModel);
+
+
+
+
+
+
+
 
 module.exports = {
   sequelize,
@@ -105,5 +98,7 @@ module.exports = {
   rentalItemsCollection,
   saleItemCollection,
   storeCollection,
-  orderCollection
+  orderCollection,
+  orderDetailsCollection,
+  rentalTrackerCollection
 };
