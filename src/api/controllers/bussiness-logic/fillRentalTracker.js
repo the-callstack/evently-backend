@@ -4,30 +4,48 @@ const { rentalTrackerCollection } = require("../../../models")
 
 
 
-const updateTrackersInBulk = async (data) => {
-    return await rentalTrackerCollection.updateInBulk(data, ['quantity'])
+const createTrackersInBulk = async (data) => {
+    return await rentalTrackerCollection.createInBulk(data)
 }
 
+const updateRentalTrackerQuantity = async (rentalTrackers) => {
+    const updatedTrackers = []
+    try {
+        for (let item of rentalTrackers) {
+            const data = {
+                quantity: item.quantity
+            }
+            const updatedTrackerQuantity = await rentalTrackerCollection.incrementValue(item.id, data)
+            updatedTrackers.push(updatedTrackerQuantity[0][0][0])
+        }
+        return updatedTrackers
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
 
 
 const extractRentalItem = (data) => {
     return data.details.reduce((val, item) => {
         if (item.RentalItemId && item.trackerId) {
-            val.push({
-                quantity: item.itemQuantity,
+            val.existingTrackers.push({
+                quantity: item.quantity,
                 RentalItemId: item.RentalItemId,
                 date: data.deleveryDate,
                 id: item.trackerId
             })
         } else if (item.RentalItemId && !item.trackerId) {
-            val.push({
-                quantity: item.itemQuantity,
+            val.newTrackers.push({
+                quantity: item.quantity,
                 RentalItemId: item.RentalItemId,
                 date: data.deleveryDate
             })
         }
         return val
-    }, [])
+    }, {
+        newTrackers: [],
+        existingTrackers: []
+    })
 }
 
 
@@ -39,5 +57,6 @@ const extractRentalItem = (data) => {
 
 module.exports = {
     extractRentalItem,
-    updateTrackersInBulk
+    createTrackersInBulk,
+    updateRentalTrackerQuantity
 }

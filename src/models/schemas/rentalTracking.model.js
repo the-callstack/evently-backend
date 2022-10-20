@@ -9,6 +9,9 @@ const createRentalTrackingModel = (sequelize, DataTypes) => {
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      validate: {
+        min: 0
+      }
     },
   });
 };

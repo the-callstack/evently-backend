@@ -2,7 +2,8 @@
 
 const { orderDetailsCollection, orderCollection } = require("../../../models")
 const { calculateTotalPrice } = require("../../controllers/bussiness-logic/calculateTotalPrice")
-const { extractRentalItem, updateTrackersInBulk } = require("../../controllers/bussiness-logic/fillRentalTracker")
+const { updateSaleItemQuantity, extractSaleItem } = require("../../controllers/bussiness-logic/extractSaleItems")
+const { extractRentalItem, createTrackersInBulk, updateRentalTrackerQuantity } = require("../../controllers/bussiness-logic/fillRentalTracker")
 const { AppError } = require("../../controllers/errorControllers")
 
 
@@ -12,7 +13,6 @@ const { AppError } = require("../../controllers/errorControllers")
 const addOrderDetails = async (req, res, next) => {
     try {
         const data = req.body
-        console.log(data)
         const createdDetails = await orderDetailsCollection.createInBulk(data)
         res.status(200).json(createdDetails)
     } catch (e) {
@@ -24,15 +24,20 @@ const createFilledOrder = async (req, res, next) => {
     try {
         const data = req.body
         data.totalPrice = calculateTotalPrice(data.details)
-        const trackers = extractRentalItem(data)
-        if (trackers != false) {
-            const updatedTrackers = await updateTrackersInBulk(trackers)
-        }
+        const { newTrackers, existingTrackers } = extractRentalItem(data)
+        const saleItems = extractSaleItem(data)
+        const updatedSaleItems = await updateSaleItemQuantity(saleItems)
+        const createdTrackers = await createTrackersInBulk(newTrackers)
+        const updatedTrackers = await updateRentalTrackerQuantity(existingTrackers)
         const createdOrder = await orderCollection.createWithNested(data, ['details'])
         const result = {
+            saleItems,
+            createdTrackers,
+            updatedSaleItems,
+            updatedTrackers,
             createdOrder
         }
-        res.status(200).json(result)
+        res.status(200).send(result)
     } catch (e) {
         console.log(e)
         next(new AppError(500, e.message))

@@ -6,9 +6,12 @@ const createOrderDetailsModel = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    itemQuantity: {
+    quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      validate: {
+        min: 0
+      }
     },
   });
 };

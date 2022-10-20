@@ -13,7 +13,10 @@ const createItemSaleModel = (sequelize, DataTypes) => sequelize.define('SaleItem
     },
     quantity: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            min: 0
+        }
     },
     price: {
         type: DataTypes.INTEGER,
