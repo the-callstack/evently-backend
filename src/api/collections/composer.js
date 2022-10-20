@@ -97,7 +97,7 @@ const canCreateOneRecord = (model) => {
             try {
                 return await model.create(data)
             } catch (e) {
-                throw new Error(`Server Error`)
+                throw new Error(e.message)
             };
         }
     }
@@ -223,6 +223,20 @@ const canUpdateInBulk = (model) => {
     }
 }
 
+
+const canIncrementValue = (model) => {
+    return {
+        incrementValue: async (id, data) => {
+            return await model.increment(
+                data,
+                {
+                    where: { id },
+                },
+            )
+        }
+    }
+}
+
 const createGenericCollections = (model) => {
     return {
         ...canReadAllRecords(model),
@@ -238,7 +252,8 @@ const createGenericCollections = (model) => {
 const createTrackerCollection = (model) => {
     return {
         ...canCreateOneRecord(model),
-        ...canUpdateInBulk(model)
+        ...canCreateInBulk(model),
+        ...canIncrementValue(model)
     }
 }
 
@@ -265,7 +280,7 @@ const createOrderCollection = (model) => {
 
 const createOrderDetailsCollection = (model) => {
     return {
-        ...canCreateInBulk(model)
+        ...canCreateInBulk(model),
     }
 }
 
@@ -275,7 +290,8 @@ const createSaleItemCollection = (model) => {
         ...canPopulateOneRecordById(model),
         ...canUpdateRecord(model),
         ...canDestroyRecord(model),
-        ...canCreateOneRecord(model)
+        ...canCreateOneRecord(model),
+        ...canIncrementValue(model)
     }
 }
 

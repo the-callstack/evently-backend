@@ -13,7 +13,10 @@ const createItemRentalModel = (sequelize, DataTypes) => sequelize.define('Rental
     },
     quantity: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            min: 0
+        }
     },
     price: {
         type: DataTypes.INTEGER,

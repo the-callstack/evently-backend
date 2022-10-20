@@ -1,6 +1,7 @@
 "use strict";
 
 const { saleItemCollection } = require("../../../models");
+const { AppError } = require("../../controllers/errorControllers");
 
 
 const getOneSaleItems = async (req, res, next) => {
@@ -31,7 +32,8 @@ const createSaleItem = async (req, res, next) => {
         const newItem = await saleItemCollection.create(itemData);
         res.status(201).send(newItem);
     } catch (e) {
-        next(new AppError(401, 'cannot create new Item'))
+        console.log(e);
+        next(new AppError(401, e.message))
     }
 };
 
@@ -43,7 +45,7 @@ const updateSaleItem = async (req, res, next) => {
         const newItem = await saleItemCollection.update(id, newData);
         res.status(202).send(newItem);
     } catch (e) {
-        next(new AppError(401, 'cannot update this Item'))
+        next(new AppError(401, e.message))
     }
 }
 
@@ -54,7 +56,7 @@ const deleteSaleItem = async (req, res, next) => {
         await saleItemCollection.destroy(id);
         res.status(204).send('the item deleted successfully');
     } catch (e) {
-        next(new AppError(401, 'cannot delete this Item'))
+        next(new AppError(401, e.message))
     }
 }
 

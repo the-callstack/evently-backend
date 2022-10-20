@@ -4,7 +4,7 @@
 const calculateTotalPrice = (payload) => {
     let total = 0
     for (let item of payload) {
-        const itemTotalPrice = item.price * item.itemQuantity
+        const itemTotalPrice = item.price * item.quantity
         total += itemTotalPrice
     }
 
