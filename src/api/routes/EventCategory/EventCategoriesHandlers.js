@@ -5,7 +5,7 @@ const { saleItemCollection, rentalItemsCollection } = require("../../../models")
 const checkSaleItemCategory = async(req, res, next) => {
   const { id } = req.body;
   const availableRental = [];
-  try {
+
     try {
       const rentalItems = await rentalItemsCollection.findRentalItemsByCatId(id);
       const rentalItemsWithTrackerId = rentalItems.filter(item => item.trackerId);
@@ -28,9 +28,8 @@ const checkSaleItemCategory = async(req, res, next) => {
   } catch (e) {
    next(e.message);
   }
-};
 
-
+}
 
 
 module.exports = {
