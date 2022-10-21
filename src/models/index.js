@@ -83,7 +83,7 @@ const rentalItemsCollection = createGenericCollections(rentalItemModel)
 
 const rentalTrackerCollection = createTrackerCollection(rentalTrackingmodel)
 const orderCollection = createOrderCollection(orderModel);
-
+const eventCollection=createGenericCollections(eventModel);
 
 
 
@@ -100,5 +100,6 @@ module.exports = {
   storeCollection,
   orderCollection,
   orderDetailsCollection,
-  rentalTrackerCollection
+  rentalTrackerCollection,
+  eventCollection
 };

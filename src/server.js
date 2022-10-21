@@ -9,6 +9,7 @@ const { saleItemRouter } = require("./api/routes/saleItem/saleItem.routes")
 const { rentalItemRouter } = require("./api/routes/rental-items/rentalItem.routes")
 const { orderRouter } = require("./api/routes/Order/order.routes")
 const { orderDetailsRouter } = require("./api/routes/order-details/orderDetails.routes")
+const { eventRouter } = require("./api/routes/event/event.routs")
 
 const app = express()
 
@@ -24,6 +25,7 @@ app.use(storeRoutes)
 app.use(rentalItemRouter)
 app.use(saleItemRouter)
 app.use(authRouter)
+app.use(eventRouter)
 app.get('/', (req, res) => {
     res.status(200).send('Hello World')
 })
