@@ -13,7 +13,7 @@ const createStoreModel = require('./schemas/store.model');
 const createRentalTrackingModel = require('./schemas/rentalTracking.model');
 
 
-const { createGenericCollections, createAuthCollection, createSaleItemCollection, createOrderDetailsCollection, createOrderCollection, createTrackerCollection } = require("../api/collections/composer");
+const { createGenericCollections, createAuthCollection, createSaleItemCollection, createOrderDetailsCollection, createOrderCollection, createTrackerCollection, createEventCollection, createCategoryCollection } = require("../api/collections/composer");
 
 
 const sequelize = new Sequelize(
@@ -44,10 +44,10 @@ rentalItemModel.hasMany(rentalTrackingmodel, { as: 'trackers' });
 rentalTrackingmodel.belongsTo(rentalItemModel);
 
 categoryModel.hasMany(saleItemModel, { as: 'saleItems' });
-saleItemModel.belongsTo(categoryModel);
+saleItemModel.belongsTo(categoryModel, { targetKey: 'name', foreignKey: 'CatName' });
 
 categoryModel.hasMany(rentalItemModel, { as: 'rentalItems' });
-rentalItemModel.belongsTo(categoryModel);
+rentalItemModel.belongsTo(categoryModel, { targetKey: 'name', foreignKey: 'CatName' });
 
 userModel.hasMany(orderModel, { as: 'orders' });
 orderModel.belongsTo(userModel);
@@ -66,7 +66,7 @@ eventModel.belongsToMany(categoryModel, {
   through: 'EventsCategory',
 });
 categoryModel.belongsToMany(eventModel, {
-  as: 'event',
+  as: 'events',
   through: 'EventsCategory',
 });
 
@@ -77,14 +77,16 @@ categoryModel.belongsToMany(eventModel, {
 const userCollection = createGenericCollections(userModel);
 const authCollection = createAuthCollection(userModel);
 const storeCollection = createGenericCollections(storeModel);
-const saleItemCollection = createSaleItemCollection(saleItemModel)
-const orderDetailsCollection = createOrderDetailsCollection(orderDetailsModel)
-const rentalItemsCollection = createGenericCollections(rentalItemModel)
+const saleItemCollection = createSaleItemCollection(saleItemModel);
+const orderDetailsCollection = createOrderDetailsCollection(orderDetailsModel);
+const rentalItemsCollection = createGenericCollections(rentalItemModel);
 
-const rentalTrackerCollection = createTrackerCollection(rentalTrackingmodel)
+const rentalTrackerCollection = createTrackerCollection(rentalTrackingmodel);
 const orderCollection = createOrderCollection(orderModel);
 
 
+const eventCollection = createEventCollection(eventModel);
+const categoryCollection = createCategoryCollection(categoryModel);
 
 
 
@@ -100,5 +102,7 @@ module.exports = {
   storeCollection,
   orderCollection,
   orderDetailsCollection,
-  rentalTrackerCollection
+  rentalTrackerCollection,
+  eventCollection,
+  categoryCollection
 };

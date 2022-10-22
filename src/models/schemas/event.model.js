@@ -6,8 +6,9 @@ const createEventModel = (sequelize, DataTypes) => {
 
     return sequelize.define('Event', {
         eventType: {
-            type: DataTypes.ENUM('birthday', 'wedding'),//TODO
-            allowNull: false
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
         },
         eventImgPath: {
             type: DataTypes.TEXT
@@ -18,7 +19,7 @@ const createEventModel = (sequelize, DataTypes) => {
     });
 
 
-}
+};
 
 
 module.exports = createEventModel;

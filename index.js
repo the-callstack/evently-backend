@@ -1,12 +1,14 @@
-'use strict'
+'use strict';
 
-const { PORT } = require("./src/config")
-const { sequelize } = require("./src/models")
-const { start } = require("./src/server")
-
-
+const { PORT } = require("./src/config");
+const { sequelize } = require("./src/models");
+const { start } = require("./src/server");
 
 
-sequelize.sync().then(() => {
-    start(PORT)
-}).catch((e) => console.log(e))
+
+
+sequelize.sync({
+    // force: true
+}).then(() => {
+    start(PORT);
+}).catch((e) => console.log(e));
