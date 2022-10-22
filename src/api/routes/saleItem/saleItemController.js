@@ -10,18 +10,18 @@ const getOneSaleItems = async (req, res, next) => {
         const item = await saleItemCollection.populateById(id);
         res.status(200).send(item);
     } catch (e) {
-        next(new AppError(401, 'cannot read Items'))
+        next(new AppError(401, 'cannot read Items'));
     }
-}
+};
 
 const getAllSaleItems = async (req, res, next) => {
     try {
         const allItem = await saleItemCollection.readAllRecords();
         res.status(200).send(allItem);
     } catch (e) {
-        next(new AppError(401, 'cannot read Items'))
+        next(new AppError(401, 'cannot read Items'));
     }
-}
+};
 
 
 const createSaleItem = async (req, res, next) => {
@@ -32,8 +32,7 @@ const createSaleItem = async (req, res, next) => {
         const newItem = await saleItemCollection.create(itemData);
         res.status(201).send(newItem);
     } catch (e) {
-        console.log(e);
-        next(new AppError(401, e.message))
+        next(new AppError(401, e.message));
     }
 };
 
@@ -45,9 +44,9 @@ const updateSaleItem = async (req, res, next) => {
         const newItem = await saleItemCollection.update(id, newData);
         res.status(202).send(newItem);
     } catch (e) {
-        next(new AppError(401, e.message))
+        next(new AppError(401, e.message));
     }
-}
+};
 
 
 const deleteSaleItem = async (req, res, next) => {
@@ -56,9 +55,9 @@ const deleteSaleItem = async (req, res, next) => {
         await saleItemCollection.destroy(id);
         res.status(204).send('the item deleted successfully');
     } catch (e) {
-        next(new AppError(401, e.message))
+        next(new AppError(401, e.message));
     }
-}
+};
 
 
 module.exports = {
@@ -67,4 +66,4 @@ module.exports = {
     deleteSaleItem,
     updateSaleItem,
     createSaleItem
-}
+};

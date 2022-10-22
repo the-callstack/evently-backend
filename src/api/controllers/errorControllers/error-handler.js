@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 const errorHandler = (err, req, res, next) => {
-    const { status, message } = err
-    res.status(status).send(message)
-}
+    const { status, msg } = err;
+    res.status(status).send(msg);
+};
 
-module.exports = errorHandler
+module.exports = errorHandler;

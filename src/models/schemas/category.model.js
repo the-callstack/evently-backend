@@ -4,9 +4,10 @@ const createCategoryModel = (sequelize, DataTypes) => {
 
 
   return sequelize.define("Category", {
-    categoryName: {
-      type: DataTypes.STRING,//to be discussed
+    name: {
+      type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     catImgPath: {
       type: DataTypes.TEXT

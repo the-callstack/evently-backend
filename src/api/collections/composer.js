@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-const { Op } = require("../../config")
+const { Op } = require("../../config");
 
 const canReadAllRecords = (model) => {
     return {
@@ -8,13 +8,27 @@ const canReadAllRecords = (model) => {
             try {
                 return await model.findAll({
                     attributes: { exclude: ['password'] }
-                })
+                });
             } catch (e) {
-                throw new Error(`Server Error`)
+                throw new Error(`Server Error`);
             }
         }
-    }
-}
+    };
+};
+const canReadAllRecordsWithCondition = (model) => {
+    return {
+        readAllRecordsWithCondition: async (condition) => {
+            try {
+                return await model.findAll({
+                    where: condition,
+                    attributes: { exclude: ['password'] }
+                });
+            } catch (e) {
+                throw new Error(e.message);
+            }
+        }
+    };
+};
 
 
 
@@ -29,13 +43,13 @@ const canFindByEmailOrPhone = (model) => {
                             { phone }
                         ]
                     }
-                })
+                });
             } catch (e) {
-                throw new Error(`Server Error`)
+                throw new Error(`Server Error`);
             }
         }
-    }
-}
+    };
+};
 
 
 // const canFindByPhone = (model) => {
@@ -55,26 +69,26 @@ const canFindByEmailOrPhone = (model) => {
 
 const canPopulateOneRecordById = (model) => {
     return {
-        populateById: async (id, args) => {
+        populateById: async (condition, args) => {
             if (args) {
                 const data = args.map((model) => {
                     return {
                         association: model,
                         attributes: { exclude: ['password'] }
-                    }
-                })
+                    };
+                });
                 try {
                     return await model.findOne({
-                        where: { id },
+                        where: condition,
                         include: [...data]
-                    })
+                    });
                 } catch (e) {
-                    throw new Error(`Server Error`)
+                    throw new Error(e.message);
                 }
             } else {
                 try {
                     return await model.findOne({
-                        where: { id },
+                        where: condition,
                         include: {
                             all: true,
                             // nested: true,
@@ -82,38 +96,38 @@ const canPopulateOneRecordById = (model) => {
                         },
                         attributes: { exclude: ['password'] }
 
-                    })
+                    });
                 } catch (e) {
-                    throw new Error(`Server Error`)
+                    throw new Error(e.message);
                 }
             }
         }
-    }
-}
+    };
+};
 
 const canCreateOneRecord = (model) => {
     return {
         create: async (data) => {
             try {
-                return await model.create(data)
+                return await model.create(data);
             } catch (e) {
-                throw new Error(e.message)
+                throw new Error(e.message);
             };
         }
-    }
-}
+    };
+};
 
 const canCreateInBulk = (model) => {
     return {
         createInBulk: async (data) => {
             try {
-                return await model.bulkCreate(data)
+                return await model.bulkCreate(data);
             } catch (error) {
-                throw new Error(error.message)
+                throw new Error(error.message);
             }
         }
-    }
-}
+    };
+};
 
 
 const canCreateWithNested = (model) => {
@@ -123,17 +137,17 @@ const canCreateWithNested = (model) => {
                 return {
                     association: child,
 
-                }
-            })
+                };
+            });
             return await model.create(
                 data,
                 {
-                    include: [...associated]
+                    include: [...associated],
                 }
-            )
+            );
         }
-    }
-}
+    };
+};
 
 
 const canUpdateRecord = (model) => {
@@ -144,13 +158,13 @@ const canUpdateRecord = (model) => {
                     where: { id },
                     returning: true,
                     attributes: { exclude: ['password'] }
-                })
+                });
             } catch (e) {
-                throw new Error(`Server Error`)
+                throw new Error(`Server Error`);
             }
         }
-    }
-}
+    };
+};
 
 const canDestroyRecord = (model) => {
     return {
@@ -159,13 +173,13 @@ const canDestroyRecord = (model) => {
                 return await model.destroy({
                     where: { id },
                     returning: true
-                })
+                });
             } catch (e) {
-                throw new Error(`Server Error`)
+                throw new Error(`Server Error`);
             }
         }
-    }
-}
+    };
+};
 
 
 const canReadPopulatedRecords = (model) => {
@@ -176,14 +190,14 @@ const canReadPopulatedRecords = (model) => {
                     return {
                         association: model,
                         attributes: { exclude: ['password'] }
-                    }
-                })
+                    };
+                });
                 try {
                     return await model.findAll({
                         include: [...data],
-                    })
+                    });
                 } catch (e) {
-                    throw new Error(`Server Error`)
+                    throw new Error(`Server Error`);
 
                 }
             }
@@ -191,18 +205,18 @@ const canReadPopulatedRecords = (model) => {
                 return await model.findAll({
                     include: {
                         all: true,
-                        // nested: true,
+                        nested: true,
                         attributes: { exclude: ['password'] }
                     },
                     attributes: { exclude: ['password'] }
-                })
+                });
             } catch (e) {
-                throw new Error(`Server Error`)
+                throw new Error(`Server Error`);
 
             }
         }
-    }
-}
+    };
+};
 
 
 const canUpdateInBulk = (model) => {
@@ -215,13 +229,13 @@ const canUpdateInBulk = (model) => {
                         updateOnDuplicate: fields,
                     }
 
-                )
+                );
             } catch (error) {
-                throw new Error(error.message)
+                throw new Error(error.message);
             }
         }
-    }
-}
+    };
+};
 
 
 const canIncrementValue = (model) => {
@@ -232,10 +246,10 @@ const canIncrementValue = (model) => {
                 {
                     where: { id },
                 },
-            )
+            );
         }
-    }
-}
+    };
+};
 
 const createGenericCollections = (model) => {
     return {
@@ -244,9 +258,10 @@ const createGenericCollections = (model) => {
         ...canDestroyRecord(model),
         ...canReadPopulatedRecords(model),
         ...canPopulateOneRecordById(model),
-        ...canCreateOneRecord(model)
-    }
-}
+        ...canCreateOneRecord(model),
+        ...canReadAllRecordsWithCondition(model)
+    };
+};
 
 
 const createTrackerCollection = (model) => {
@@ -254,15 +269,15 @@ const createTrackerCollection = (model) => {
         ...canCreateOneRecord(model),
         ...canCreateInBulk(model),
         ...canIncrementValue(model)
-    }
-}
+    };
+};
 
 const createAuthCollection = (model) => {
     return {
         ...canFindByEmailOrPhone(model),
         // ...canFindByPhone(model)
-    }
-}
+    };
+};
 
 
 const createOrderCollection = (model) => {
@@ -274,15 +289,15 @@ const createOrderCollection = (model) => {
         ...canReadPopulatedRecords(model),
         ...canPopulateOneRecordById(model),
         ...canCreateOneRecord(model)
-    }
-}
+    };
+};
 
 
 const createOrderDetailsCollection = (model) => {
     return {
         ...canCreateInBulk(model),
-    }
-}
+    };
+};
 
 const createSaleItemCollection = (model) => {
     return {
@@ -292,9 +307,28 @@ const createSaleItemCollection = (model) => {
         ...canDestroyRecord(model),
         ...canCreateOneRecord(model),
         ...canIncrementValue(model)
-    }
-}
+    };
+};
 
+
+const createEventCollection = (model) => {
+    return {
+        ...canCreateWithNested(model),
+        ...canCreateOneRecord(model),
+        ...canPopulateOneRecordById(model),
+        ...canReadAllRecordsWithCondition(model)
+    };
+};
+const createCategoryCollection = (model) => {
+    return {
+        ...canCreateWithNested(model),
+        ...canCreateOneRecord(model),
+        ...canPopulateOneRecordById(model),
+        ...canReadAllRecordsWithCondition(model),
+        ...canReadPopulatedRecords(model),
+        ...canCreateInBulk(model)
+    };
+};
 
 
 module.exports = {
@@ -303,5 +337,7 @@ module.exports = {
     createSaleItemCollection,
     createOrderDetailsCollection,
     createOrderCollection,
-    createTrackerCollection
-}
+    createTrackerCollection,
+    createEventCollection,
+    createCategoryCollection
+};
