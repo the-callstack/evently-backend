@@ -13,12 +13,13 @@ const createStoreModel = require('./schemas/store.model');
 const createRentalTrackingModel = require('./schemas/rentalTracking.model');
 
 
-const { createGenericCollections, createAuthCollection, createSaleItemCollection, createOrderDetailsCollection, createOrderCollection, createTrackerCollection, createEventCollection, createCategoryCollection } = require("../api/collections/composer");
+const { createGenericCollections, createAuthCollection, createSaleItemCollection, createOrderDetailsCollection, createOrderCollection, createTrackerCollection, createEventCollection, createCategoryCollection, createtestCollection } = require("../api/collections/composer");
+const createEventCategorieModel = require('./schemas/eventsCategorie.model');
 
 
 const sequelize = new Sequelize(
   DATABASE_URL,
-  sequelizeOption
+  // sequelizeOption
 );
 
 const rentalTrackingmodel = createRentalTrackingModel(sequelize, DataTypes);
@@ -30,6 +31,7 @@ const orderModel = createOrderModel(sequelize, DataTypes);
 const eventModel = createEventModel(sequelize, DataTypes);
 const categoryModel = createCategoryModel(sequelize, DataTypes);
 const userModel = createUsertModel(sequelize, DataTypes);
+const eventCategorYModel = createEventCategorieModel(sequelize, DataTypes)
 
 userModel.hasMany(storeModel, { as: 'stores' });
 storeModel.belongsTo(userModel);
@@ -65,10 +67,18 @@ eventModel.belongsToMany(categoryModel, {
   as: 'categories',
   through: 'EventsCategory',
 });
+
 categoryModel.belongsToMany(eventModel, {
   as: 'events',
   through: 'EventsCategory',
 });
+
+
+eventModel.hasMany(eventCategorYModel, { as: 'EventsCategory' });
+eventCategorYModel.belongsTo(eventModel);
+
+categoryModel.hasMany(eventCategorYModel, { as: 'EventsCategory' });
+eventCategorYModel.belongsTo(categoryModel);
 
 
 
@@ -88,6 +98,7 @@ const orderCollection = createOrderCollection(orderModel);
 const eventCollection = createEventCollection(eventModel);
 const categoryCollection = createCategoryCollection(categoryModel);
 
+const testCollection = createtestCollection(eventModel);
 
 
 
@@ -104,5 +115,6 @@ module.exports = {
   orderDetailsCollection,
   rentalTrackerCollection,
   eventCollection,
-  categoryCollection
+  categoryCollection,
+  testCollection
 };

@@ -5,7 +5,9 @@
 const extractCategories = (data) => {
     return data.categories.reduce((val, item) => {
         if (item.id) {
-            val.existingCategories.name.push(item.name);
+            // val.existingCategories.name.push(item.name);
+            val.existingCategories.id.push(item.id);
+
         } else {
             val.newCategories.push(item);
         }
@@ -13,7 +15,8 @@ const extractCategories = (data) => {
     }, {
         newCategories: [],
         existingCategories: {
-            name: []
+            // name: [],
+            id:[]
         }
     });
 };

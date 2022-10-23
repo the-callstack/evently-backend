@@ -87,7 +87,7 @@ const canPopulateOneRecordById = (model) => {
                 }
             } else {
                 try {
-                    return await model.findOne({
+                    const result = await model.findOne({
                         where: condition,
                         include: {
                             all: true,
@@ -96,7 +96,8 @@ const canPopulateOneRecordById = (model) => {
                         },
                         attributes: { exclude: ['password'] }
 
-                    });
+                    })
+                    return result;
                 } catch (e) {
                     throw new Error(e.message);
                 }
@@ -160,7 +161,7 @@ const canUpdateRecord = (model) => {
                     attributes: { exclude: ['password'] }
                 });
             } catch (e) {
-                throw new Error(`Server Error`);
+                throw new Error(e.message);
             }
         }
     };
@@ -175,7 +176,7 @@ const canDestroyRecord = (model) => {
                     returning: true
                 });
             } catch (e) {
-                throw new Error(`Server Error`);
+                throw new Error(e.message);
             }
         }
     };
@@ -202,16 +203,17 @@ const canReadPopulatedRecords = (model) => {
                 }
             }
             try {
+
                 return await model.findAll({
                     include: {
                         all: true,
-                        nested: true,
+                        // nested: true,
                         attributes: { exclude: ['password'] }
                     },
                     attributes: { exclude: ['password'] }
                 });
             } catch (e) {
-                throw new Error(`Server Error`);
+                throw new Error(e.message);
 
             }
         }
@@ -319,6 +321,22 @@ const createEventCollection = (model) => {
         ...canReadAllRecordsWithCondition(model)
     };
 };
+
+const createtestCollection = (model) => {
+    return {
+        ...canReadPopulatedRecords(model),
+        ...canReadAllRecords(model),
+        ...canCreateWithNested(model),
+        ...canCreateOneRecord(model),
+        ...canPopulateOneRecordById(model),
+        ...canReadAllRecordsWithCondition(model),
+        ...canDestroyRecord(model),
+        ...canUpdateInBulk(model),
+        ...canUpdateRecord(model)
+
+    };
+};
+
 const createCategoryCollection = (model) => {
     return {
         ...canCreateWithNested(model),
@@ -326,7 +344,9 @@ const createCategoryCollection = (model) => {
         ...canPopulateOneRecordById(model),
         ...canReadAllRecordsWithCondition(model),
         ...canReadPopulatedRecords(model),
-        ...canCreateInBulk(model)
+        ...canCreateInBulk(model),
+        ...canDestroyRecord(model)
+
     };
 };
 
@@ -339,5 +359,6 @@ module.exports = {
     createOrderCollection,
     createTrackerCollection,
     createEventCollection,
-    createCategoryCollection
+    createCategoryCollection,
+    createtestCollection
 };

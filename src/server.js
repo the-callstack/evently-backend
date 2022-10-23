@@ -11,6 +11,7 @@ const { orderRouter } = require("./api/routes/Order/order.routes");
 const { orderDetailsRouter } = require("./api/routes/order-details/orderDetails.routes");
 const { eventsCatRouter } = require("./api/routes/events/event.routes");
 const { catRouter } = require("./api/routes/categories/categories.routes");
+const { testeventRouter } = require("./api/routes/eventcattest/test.routes");
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(rentalItemRouter);
 app.use(saleItemRouter);
 app.use(authRouter);
 app.use(eventsCatRouter);
+app.use(testeventRouter)
 app.get('/', (req, res) => {
     res.status(200).send('Hello World');
 });
