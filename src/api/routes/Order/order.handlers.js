@@ -49,7 +49,7 @@ const getOrderDetails = async (req, res, next) => {
       filter = [filter]
     }
     const { id } = req.params
-    const order = await orderCollection.populateById(id, filter)
+    const order = await orderCollection.populateById({id}, filter)
     res.status(200).json(order)
   } catch (error) {
     next(new AppError(500, 'Server Error'))
