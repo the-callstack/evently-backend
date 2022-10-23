@@ -19,7 +19,7 @@ const createEventCategorieModel = require('./schemas/eventsCategorie.model');
 
 const sequelize = new Sequelize(
   DATABASE_URL,
-  // sequelizeOption
+  sequelizeOption
 );
 
 const rentalTrackingmodel = createRentalTrackingModel(sequelize, DataTypes);
@@ -99,6 +99,7 @@ const eventCollection = createEventCollection(eventModel);
 const categoryCollection = createCategoryCollection(categoryModel);
 
 const testCollection = createtestCollection(eventModel);
+const eventCatCollection = createGenericCollections(eventCategorYModel)
 
 
 
@@ -116,5 +117,6 @@ module.exports = {
   rentalTrackerCollection,
   eventCollection,
   categoryCollection,
-  testCollection
+  testCollection,
+  eventCatCollection
 };

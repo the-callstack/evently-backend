@@ -1,7 +1,7 @@
 'use strict';
 
-const { eventCollection, testCollection, categoryCollection } = require('../../../models');
-const { extractCategories } = require('../../controllers/bussiness-logic/categoriesOperations');
+const { eventCollection, testCollection, categoryCollection, eventCatCollection } = require('../../../models');
+const { extractCategories, creatcat } = require('../../controllers/bussiness-logic/categoriesOperations');
 const { AppError } = require('../../controllers/errorControllers');
 
 const createEvent = async (req, res, next) => {
@@ -9,20 +9,12 @@ const createEvent = async (req, res, next) => {
         const data = req.body;
         const newEvent = { "eventType": data.eventType };
         const createdEvent = await testCollection.create(newEvent);
-        console.log(data.categories, "**************************")
+        const results = {}
         if (data.categories) {
-            var existngCat = extractCategories(data).existingCategories
-            console.log(existngCat)
-            var toBeAddedCategories = await categoryCollection.readAllRecordsWithCondition(existngCat);
-            console.log(toBeAddedCategories, "=====================================")
-            var completeEvent = await createdEvent.addCategories(toBeAddedCategories);
-            console.log(completeEvent)
+            results.toBeAddedCategories = await categoryCollection.readAllRecordsWithCondition(data.categories);
+            results.completeEvent = await createdEvent.addCategories(toBeAddedCategories);
         }
-        const results = {
-            createdEvent,
-            completeEvent,
-            completeEvent
-        };
+
         res.status(200).send(results);
     } catch (e) {
 
@@ -43,7 +35,7 @@ const getEvents = async (req, res, next) => {
 const getEventDetalis = async (req, res, next) => {
     try {
         const { id } = req.params
-        const eventDetails = await testCollection.populateById(id)
+        const eventDetails = await testCollection.populateById({ id })
         res.status(200).json(eventDetails)
     } catch (error) {
         next(new AppError(500, 'Server Error'))
@@ -64,24 +56,25 @@ const deleteEvent = async (req, res, next) => {
 
 const updateEvent = async (req, res, next) => {
     try {
-        const newEvent = req.body;
+        const newCat = req.body.EventsCategory.new;
+        const deleteCatID = req.body.EventsCategory.cancelled;
         const { id } = req.params;
-        const event = {
-            id,
-            ...newEvent
-        }
-
-        const updatedEvent = await testCollection.updateInBulk(event, ['EventsCategory']);
-        console.log(updatedEvent)
-        const result ={
-            event,
-            updatedEvent
+        const foundEvent = await testCollection.populateById({ id })
+        const addCategories = creatcat(foundEvent, newCat);
+        if (deleteCatID) await eventCatCollection.destroyEventCat(id, deleteCatID.id)
+        const result = {
+            foundEvent,
+            newCat,
+            deleteCatID,
+            addCategories
         }
         res.status(201).json(result);
     } catch (e) {
         next(new AppError(401, e.message));
     }
 };
+
+
 
 module.exports = {
     createEvent,

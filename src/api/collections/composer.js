@@ -182,6 +182,26 @@ const canDestroyRecord = (model) => {
     };
 };
 
+const canDestroyEventCatRecord = (model) => {
+    return {
+        destroyEventCat: async (id,categories) => {
+            try {
+                return await model.destroy({
+                    where: {
+                        [Op.and]: [
+                            { EventId:id },
+                            { CategoryId :categories}
+                        ]
+                    },
+                    returning: true
+                });
+            } catch (e) {
+                throw new Error(e.message);
+            }
+        }
+    };
+};
+
 
 const canReadPopulatedRecords = (model) => {
     return {
@@ -232,8 +252,8 @@ const canUpdateInBulk = (model) => {
                     }
 
                 );
-            } catch (error) {
-                throw new Error(error.message);
+            } catch (e) {
+                throw new Error(e.message);
             }
         }
     };
@@ -261,7 +281,9 @@ const createGenericCollections = (model) => {
         ...canReadPopulatedRecords(model),
         ...canPopulateOneRecordById(model),
         ...canCreateOneRecord(model),
-        ...canReadAllRecordsWithCondition(model)
+        ...canReadAllRecordsWithCondition(model),
+        ...canDestroyEventCatRecord(model)
+
     };
 };
 
@@ -318,7 +340,8 @@ const createEventCollection = (model) => {
         ...canCreateWithNested(model),
         ...canCreateOneRecord(model),
         ...canPopulateOneRecordById(model),
-        ...canReadAllRecordsWithCondition(model)
+        ...canReadAllRecordsWithCondition(model),
+        ...canDestroyEventCatRecord(model)
     };
 };
 
@@ -345,10 +368,12 @@ const createCategoryCollection = (model) => {
         ...canReadAllRecordsWithCondition(model),
         ...canReadPopulatedRecords(model),
         ...canCreateInBulk(model),
-        ...canDestroyRecord(model)
+        ...canDestroyRecord(model),
+        ...canDestroyEventCatRecord(model)
 
     };
 };
+
 
 
 module.exports = {

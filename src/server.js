@@ -12,6 +12,7 @@ const { orderDetailsRouter } = require("./api/routes/order-details/orderDetails.
 const { eventsCatRouter } = require("./api/routes/events/event.routes");
 const { catRouter } = require("./api/routes/categories/categories.routes");
 const { testeventRouter } = require("./api/routes/eventcattest/test.routes");
+const { testCatRouter } = require("./api/routes/eventcattest/testCat.rotes");
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use(saleItemRouter);
 app.use(authRouter);
 app.use(eventsCatRouter);
 app.use(testeventRouter)
+app.use(testCatRouter)
 app.get('/', (req, res) => {
     res.status(200).send('Hello World');
 });
