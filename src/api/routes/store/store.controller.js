@@ -17,23 +17,23 @@ const createStore = async (req, res, next) => {
 
 const getStores = async (req, res, next) => {
   try {
-    const storesData = await storeCollection.readAllRecords()
-    res.status(200).json(storesData)
+    const storesData = await storeCollection.readAllRecords();
+    res.status(200).json(storesData);
   } catch (error) {
-    next(new AppError(500, 'Server Error'))
+    next(new AppError(500, error.message));
   }
-}
+};
 
 
 const getStoreDetalis = async (req, res, next) => {
   try {
-    const { id } = req.params
-    const storeDetails = await storeCollection.populateById(id)
-    res.status(200).json(storeDetails)
+    const { id } = req.params;
+    const storeDetails = await storeCollection.populateById({ id });
+    res.status(200).json(storeDetails);
   } catch (error) {
-    next(new AppError(500, 'Server Error'))
+    next(new AppError(500, error.message));
   }
-}
+};
 
 
 const deleteStore = async (req, res, next) => {

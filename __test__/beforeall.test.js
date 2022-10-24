@@ -22,14 +22,14 @@ describe('Sale Item Route', () => {
     it('should create a new sale item ', async () => {
         const newSaleItem = {
             accessToken: user.accessToken,
-            name: 'chai',
+            name: 'chai2',
             quantity: 50,
             price: 100,
             StoreId: 1,
 
         };
-        const Saletem = await request.post('/sale').send(newSaleItem);
-        const addedSaleItem = Saletem.body;
+        const SaleItem = await request.post('/sale').send(newSaleItem);
+        const addedSaleItem = SaleItem.body;
         expect(addedSaleItem.name).toEqual(newSaleItem.name);
         expect(addedSaleItem.quantity).toEqual(newSaleItem.quantity);
     });
