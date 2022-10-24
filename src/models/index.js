@@ -19,7 +19,7 @@ const createEventCategorieModel = require('./schemas/eventsCategorie.model');
 
 const sequelize = new Sequelize(
   DATABASE_URL,
-  sequelizeOption
+  // sequelizeOption
 );
 
 const rentalTrackingmodel = createRentalTrackingModel(sequelize, DataTypes);
@@ -31,7 +31,7 @@ const orderModel = createOrderModel(sequelize, DataTypes);
 const eventModel = createEventModel(sequelize, DataTypes);
 const categoryModel = createCategoryModel(sequelize, DataTypes);
 const userModel = createUsertModel(sequelize, DataTypes);
-const eventCategorYModel = createEventCategorieModel(sequelize, DataTypes)
+const eventCategorYModel = createEventCategorieModel(sequelize, DataTypes);
 
 userModel.hasMany(storeModel, { as: 'stores' });
 storeModel.belongsTo(userModel);
@@ -99,7 +99,7 @@ const eventCollection = createEventCollection(eventModel);
 const categoryCollection = createCategoryCollection(categoryModel);
 
 const testCollection = createtestCollection(eventModel);
-const eventCatCollection = createGenericCollections(eventCategorYModel)
+const eventCatCollection = createGenericCollections(eventCategorYModel);
 
 
 
