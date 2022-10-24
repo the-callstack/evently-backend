@@ -67,15 +67,25 @@ const updateCategory = async (req, res, next) => {
         const newEvent = req.body.EventsCategory.new;
         const deleteCEventID = req.body.EventsCategory.cancelled;
         const { id } = req.params;
-        const foundCategory = await categoryCollection.populateById({ id });
-        const addEvent = creatEvent(foundCategory, newEvent);
-        if (deleteCEventID) await eventCatCollection.destroyEventCat(deleteCEventID.id, id);
+        const results = await sequelize.transaction(async () => {
+            try {
+                const foundCategory = await categoryCollection.populateById({ id });
+                const addEvent = creatEvent(foundCategory, newEvent);
+                if (deleteCEventID) await eventCatCollection.destroyEventCat(deleteCEventID.id, id);
+                return result = {
+                    foundCategory,
+                    addEvent
+                };
+            } catch (error) {
+                console.log(error);
+                throw new Error(error.message);
+            }
+        });
 
         const result = {
-            foundCategory,
+            results,
             newEvent,
-            deleteCEventID,
-            addEvent
+            deleteCEventID
         };
         res.status(201).json(result);
     } catch (e) {
