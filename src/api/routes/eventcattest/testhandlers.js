@@ -1,7 +1,7 @@
 'use strict';
 
 const { eventCollection, testCollection, categoryCollection, eventCatCollection } = require('../../../models');
-const { extractCategories, creatcat } = require('../../controllers/bussiness-logic/categoriesOperations');
+const { extractCatgories, creatcat } = require('../../controllers/bussiness-logic/categoriesOperations');
 const { AppError } = require('../../controllers/errorControllers');
 
 const createEvent = async (req, res, next) => {
@@ -12,7 +12,7 @@ const createEvent = async (req, res, next) => {
         const results = {}
         if (data.categories) {
             results.toBeAddedCategories = await categoryCollection.readAllRecordsWithCondition(data.categories);
-            results.completeEvent = await createdEvent.addCategories(toBeAddedCategories);
+            results.completeEvent = await createdEvent.addCategories(results.toBeAddedCategories);
         }
 
         res.status(200).send(results);
