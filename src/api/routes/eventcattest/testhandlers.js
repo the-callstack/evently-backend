@@ -9,7 +9,7 @@ const createEvent = async (req, res, next) => {
         const data = req.body;
         const newEvent = { "eventType": data.eventType };
         const createdEvent = await testCollection.create(newEvent);
-        const results = {}
+        const results = {};
         if (data.categories) {
             results.toBeAddedCategories = await categoryCollection.readAllRecordsWithCondition(data.categories);
             results.completeEvent = await createdEvent.addCategories(toBeAddedCategories);
@@ -24,23 +24,23 @@ const createEvent = async (req, res, next) => {
 
 const getEvents = async (req, res, next) => {
     try {
-        const eventsData = await testCollection.readAllPopulated()
-        res.status(200).json(eventsData)
+        const eventsData = await testCollection.readAllPopulated();
+        res.status(200).json(eventsData);
     } catch (e) {
-        next(new AppError(500, e.message))
+        next(new AppError(500, e.message));
     }
-}
+};
 
 
 const getEventDetalis = async (req, res, next) => {
     try {
-        const { id } = req.params
-        const eventDetails = await testCollection.populateById({ id })
-        res.status(200).json(eventDetails)
+        const { id } = req.params;
+        const eventDetails = await testCollection.populateById({ id });
+        res.status(200).json(eventDetails);
     } catch (error) {
-        next(new AppError(500, 'Server Error'))
+        next(new AppError(500, 'Server Error'));
     }
-}
+};
 
 
 const deleteEvent = async (req, res, next) => {
@@ -59,15 +59,21 @@ const updateEvent = async (req, res, next) => {
         const newCat = req.body.EventsCategory.new;
         const deleteCatID = req.body.EventsCategory.cancelled;
         const { id } = req.params;
-        const foundEvent = await testCollection.populateById({ id })
+        const foundEvent = await testCollection.populateById({ id });
         const addCategories = creatcat(foundEvent, newCat);
-        if (deleteCatID) await eventCatCollection.destroyEventCat(id, deleteCatID.id)
+        if (newCat) {
+            const toBeAddedCategories = await categoryCollection.readAllRecordsWithCondition(newCat);
+            const addedCategories = await foundEvent.addCategories(toBeAddedCategories);
+
+            return addedCategories;
+        }
+        if (deleteCatID) await eventCatCollection.destroyEventCat(id, deleteCatID.id);
         const result = {
             foundEvent,
             newCat,
             deleteCatID,
             addCategories
-        }
+        };
         res.status(201).json(result);
     } catch (e) {
         next(new AppError(401, e.message));

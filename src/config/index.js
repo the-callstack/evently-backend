@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
@@ -15,7 +15,7 @@ const sequelizeOption = {
             rejectUnauthorized: false
         }
     }
-}
+};
 
 
 
@@ -32,5 +32,6 @@ module.exports = {
     Sequelize,
     sequelizeOption,
     multer,
-    Op
-}
+    Op,
+    TEST_USER: JSON.parse(process.env.TEST_USER)
+};

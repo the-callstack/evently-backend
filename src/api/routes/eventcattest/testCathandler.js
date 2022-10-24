@@ -72,7 +72,7 @@ const updateCategory = async (req, res, next) => {
                 const foundCategory = await categoryCollection.populateById({ id });
                 const addEvent = creatEvent(foundCategory, newEvent);
                 if (deleteCEventID) await eventCatCollection.destroyEventCat(deleteCEventID.id, id);
-                return result = {
+                return {
                     foundCategory,
                     addEvent
                 };
