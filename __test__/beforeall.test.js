@@ -54,12 +54,12 @@ describe('User Sign In', () => {
     it('should sign in the user', async () => {
 
         const userData = {
-            "email": "eman@eman.eman",
-            "password": "1234"
+            "email": user.email,
+            "password": user.password
         };
         const encodedCredintial = base64.encode(`${userData.email}:${userData.password}`);
         const loggedIn = await request.post('/signin').set('Authorization', encodedCredintial);
         expect(loggedIn.status).toEqual(200);
-        expect(loggedIn.body.username).toEqual('eman');
+        expect(loggedIn.body.username).toEqual(user.username);
     });
 });
