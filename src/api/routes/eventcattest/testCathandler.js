@@ -8,7 +8,7 @@ const createCat = async (req, res, next) => {
     try {
         const data = req.body;
         const newCategory = { "name": data.name };
-        const result = await sequelize.transaction(async () => {
+        const result = await sequelize.transaction(async (t) => {
             try {
                 const createdCategory = await categoryCollection.create(newCategory);
                 const results = { createdCategory };
@@ -69,11 +69,15 @@ const updateCategory = async (req, res, next) => {
         const results = await sequelize.transaction(async () => {
             try {
                 const foundCategory = await categoryCollection.populateById({ id });
-                const addEvent = creatEvent(foundCategory, newEvent);
+                if (newEvent) {
+                    const toBeAddedEvent = await eventCollection.readAllRecordsWithCondition(newEvent);
+                    var addedEvent = await foundCategory.addEvents(toBeAddedEvent)
+                }
+
                 if (deleteCEventID) await eventCatCollection.destroyEventCat(deleteCEventID.id, id);
                 return {
                     foundCategory,
-                    addEvent
+                    addedEvent
                 };
             } catch (error) {
                 throw new Error(error.message);
