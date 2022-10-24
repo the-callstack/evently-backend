@@ -15,14 +15,11 @@ beforeAll(async () => {
     const encodedCredintial = base64.encode(`${userData.email}:${userData.password}`);
     const loggedIn = await request.post('/signin').set('Authorization', `Basic ${encodedCredintial}`);
     user.accessToken = loggedIn.body.accessToken;
-    console.log(user);
-    // expect(loggedIn.status).toEqual(200);
-    // expect(loggedIn.body.username).toEqual(user.username);
 });
 
 
 describe('Sale Item Route', () => {
-    it('should ', async () => {
+    it('should create a new sale item ', async () => {
         const newSaleItem = {
             accessToken: user.accessToken,
             name: 'chai',
@@ -43,17 +40,12 @@ describe('Sale Item Route', () => {
 
 // describe('User Sign Up', () => {
 //     it('should sign up a new user', async () => {
-//         const userData = {
-//             username: 'eman',
-//             password: '1234',
-//             email: 'eman@eman.eman',
-//             phone: '0777777'
-//         };
+//         const userData = user
 
 //         const data = await request.post('/signup').send(userData);
 //         const newUser = data.body;
 //         console.log(newUser);
-//         expect(newUser.username).toEqual(userData.username);
+//         expect(user.username).toEqual(userData.username);
 //         expect(newUser.email).toEqual(userData.email);
 //     });
 // });
