@@ -35,31 +35,43 @@ const updateOrder = async (req, res, next) => {
 
 const getOrders = async (req, res, next) => {
   try {
-    const orders = await orderCollection.readAllRecords()
-    res.status(200).json(orders)
+    const orders = await orderCollection.readAllRecords();
+    res.status(200).json(orders);
   } catch (error) {
-    next(new AppError(500, 'Server Error'))
+    next(new AppError(500, "Server Error"));
   }
-}
+};
 
 const getOrderDetails = async (req, res, next) => {
   try {
-    let filter = req.query.filter
-    if (typeof (filter) === 'string') {
-      filter = [filter]
+    let filter = req.query.filter;
+    if (typeof filter === "string") {
+      filter = [filter];
     }
-    const { id } = req.params
-    const order = await orderCollection.populateById(id, filter)
-    res.status(200).json(order)
+    const { id } = req.params;
+
+    const order = await orderCollection.populateById({ id }, filter);
+    res.status(200).json(order);
   } catch (error) {
-    next(new AppError(500, 'Server Error'))
+    next(new AppError(500, "Server Error"));
   }
-}
+};
+
+const getAllOrdersForUser = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const allOrders = await orderCollection.readByUserId(id);
+    res.status(200).json(allOrders);
+  } catch (error) {
+    next(new AppError(500, error.message));
+  }
+};
 
 module.exports = {
   createOrder,
   deleteOrder,
   updateOrder,
   getOrders,
-  getOrderDetails
+  getOrderDetails,
+  getAllOrdersForUser,
 };
