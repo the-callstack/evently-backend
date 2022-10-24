@@ -16,7 +16,7 @@ const getOneSaleItems = async (req, res, next) => {
 
 const getAllSaleItems = async (req, res, next) => {
     try {
-        const allItem = await saleItemCollection.readAllRecords();
+        const allItem = await saleItemCollection.readAllPopulated();
         res.status(200).send(allItem);
     } catch (e) {
         next(new AppError(401, 'cannot read Items'));

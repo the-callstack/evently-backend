@@ -30,6 +30,8 @@
     "sequelize": "^6.25.0"
   },
   "devDependencies": {
+    "@stryker-mutator/core": "^6.2.3",
+    "@stryker-mutator/jest-runner": "^6.2.3",
     "jest": "^29.2.0",
     "supertest": "^6.3.0"
   }

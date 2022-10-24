@@ -27,6 +27,8 @@ const canReadAllRecords = (model) => {
     },
   };
 };
+
+
 const canReadAllRecordsWithCondition = (model) => {
   return {
     readAllRecordsWithCondition: async (condition) => {
@@ -72,43 +74,87 @@ const canFindByEmailOrPhone = (model) => {
 //     }
 // }
 
+
 const canPopulateOneRecordById = (model) => {
-  return {
-    populateById: async (condition, args) => {
-      if (args) {
-        const data = args.map((model) => {
-          return {
-            association: model,
-            attributes: { exclude: ["password"] },
-          };
-        });
-        try {
-          return await model.findOne({
-            where: condition,
-            include: [...data],
-          });
-        } catch (e) {
-          throw new Error(e.message);
+    return {
+        populateById: async (condition, args) => {
+            if (args) {
+                const data = args.map((model) => {
+                    return {
+                        association: model,
+                        attributes: { exclude: ['password'] }
+                    };
+                });
+                try {
+                    return await model.findOne({
+                        where: condition,
+                        include: [...data]
+                    });
+                } catch (e) {
+                    throw new Error(e.message);
+                }
+            } else {
+                try {
+                    const result = await model.findOne({
+                        where: condition,
+                        include: {
+                            all: true,
+                            // nested: true,
+                            attributes: { exclude: ['password'] }
+                        },
+                        attributes: { exclude: ['password'] }
+
+                    });
+                    return result;
+                } catch (e) {
+                    throw new Error(e.message);
+                }
+            }
         }
-      } else {
-        try {
-          const result = await model.findOne({
-            where: condition,
-            include: {
-              all: true,
-              // nested: true,
-              attributes: { exclude: ["password"] },
-            },
-            attributes: { exclude: ["password"] },
-          });
-          return result;
-        } catch (e) {
-          throw new Error(e.message);
-        }
-      }
-    },
-  };
+    };
 };
+
+const canPopualteOneRecordWithNestedData = (model) => {
+    return {
+        populateWithNested: async (id, firstChild, children, categories) => {
+            try {
+                const data = children.map((model) => {
+                    return {
+                        association: model,
+                        // as: model,
+                        // attributes:{price}
+                        // limit: 1,
+                        // where: {
+                        //     price: {
+                        //         [Op.lt]: 15
+                        //     }
+                        // }
+                    };
+                });
+                return await model.findOne({
+                    where: { id },
+                    include: {
+                        association: firstChild,
+                        where: {
+                            id: categories
+                        },
+                        // include: {
+                        //     association: 'rentalItems',
+                        //     where: {
+                        //         price: { [Op.lt]: 15 }
+                        //     }
+                        // }
+                        include: [...data]
+
+                    }
+                });
+            } catch (error) {
+                throw new Error(error.message);
+            }
+        }
+    };
+};
+
 
 const canCreateOneRecord = (model) => {
   return {
@@ -181,21 +227,25 @@ const canDestroyRecord = (model) => {
 };
 
 const canDestroyEventCatRecord = (model) => {
-  return {
-    destroyEventCat: async (id, categories) => {
-      try {
-        return await model.destroy({
-          where: {
-            [Op.and]: [{ EventId: id }, { CategoryId: categories }],
-          },
-          returning: true,
-        });
-      } catch (e) {
-        throw new Error(e.message);
-      }
-    },
-  };
+    return {
+        destroyEventCat: async (id, categories) => {
+            try {
+                return await model.destroy({
+                    where: {
+                        [Op.and]: [
+                            { EventId: id },
+                            { CategoryId: categories }
+                        ]
+                    },
+                    returning: true
+                });
+            } catch (e) {
+                throw new Error(e.message);
+            }
+        }
+    };
 };
+
 
 const canReadPopulatedRecords = (model) => {
   return {
@@ -302,24 +352,30 @@ const createOrderDetailsCollection = (model) => {
 };
 
 const createSaleItemCollection = (model) => {
-  return {
-    ...canReadAllRecords(model),
-    ...canPopulateOneRecordById(model),
-    ...canUpdateRecord(model),
-    ...canDestroyRecord(model),
-    ...canCreateOneRecord(model),
-    ...canIncrementValue(model),
-  };
+
+    return {
+        ...canReadAllRecords(model),
+        ...canPopulateOneRecordById(model),
+        ...canUpdateRecord(model),
+        ...canDestroyRecord(model),
+        ...canCreateOneRecord(model),
+        ...canIncrementValue(model),
+        ...canReadPopulatedRecords(model)
+    };
+
 };
 
 const createEventCollection = (model) => {
-  return {
-    ...canCreateWithNested(model),
-    ...canCreateOneRecord(model),
-    ...canPopulateOneRecordById(model),
-    ...canReadAllRecordsWithCondition(model),
-    ...canDestroyEventCatRecord(model),
-  };
+
+    return {
+        ...canCreateWithNested(model),
+        ...canCreateOneRecord(model),
+        ...canPopulateOneRecordById(model),
+        ...canReadAllRecordsWithCondition(model),
+        ...canDestroyEventCatRecord(model),
+        ...canPopualteOneRecordWithNestedData(model)
+    };
+
 };
 
 const createtestCollection = (model) => {
