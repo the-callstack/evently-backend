@@ -28,7 +28,7 @@ const getStores = async (req, res, next) => {
 const getStoreDetalis = async (req, res, next) => {
   try {
     const { id } = req.params
-    const storeDetails = await storeCollection.populateById(id)
+    const storeDetails = await storeCollection.populateById({id})
     res.status(200).json(storeDetails)
   } catch (error) {
     next(new AppError(500, 'Server Error'))

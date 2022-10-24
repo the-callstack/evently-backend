@@ -5,7 +5,7 @@ const createOrderModel = (sequelize, DataTypes) => sequelize.define('Order', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    deleveryDate: {
+    deliveryDate: {
         type: DataTypes.DATE,
         allowNull: false
     },

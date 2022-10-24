@@ -7,7 +7,7 @@ const { AppError } = require("../../controllers/errorControllers");
 const getOneSaleItems = async (req, res, next) => {
     const { id } = req.params;
     try {
-        const item = await saleItemCollection.populateById(id);
+        const item = await saleItemCollection.populateById({id});
         res.status(200).send(item);
     } catch (e) {
         next(new AppError(401, 'cannot read Items'));

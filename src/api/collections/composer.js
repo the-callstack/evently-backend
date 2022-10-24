@@ -66,7 +66,6 @@ const canFindByEmailOrPhone = (model) => {
 //     }
 // }
 
-
 const canPopulateOneRecordById = (model) => {
     return {
         populateById: async (condition, args) => {

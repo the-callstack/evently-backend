@@ -31,14 +31,14 @@ const extractRentalItem = (data) => {
             val.existingTrackers.push({
                 quantity: item.quantity,
                 RentalItemId: item.RentalItemId,
-                date: data.deleveryDate,
+                date: data.deliveryDate,
                 id: item.trackerId
             })
         } else if (item.RentalItemId && !item.trackerId) {
             val.newTrackers.push({
                 quantity: item.quantity,
                 RentalItemId: item.RentalItemId,
-                date: data.deleveryDate
+                date: data.deliveryDate
             })
         }
         return val

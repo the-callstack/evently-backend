@@ -46,7 +46,7 @@ const getRentalItemDetails = async (req, res, next) => {
     try {
         const { filter } = req.query
         const { id } = req.params
-        const item = await rentalItemsCollection.populateById(id, filter)
+        const item = await rentalItemsCollection.populateById({id}, filter)
         res.status(200).json(item)
     } catch (error) {
         next(new AppError(500, `Server Error, Can't retrieve data`))
