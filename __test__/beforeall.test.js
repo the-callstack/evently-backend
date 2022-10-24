@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
-const { TEST_USER } = require('../src/config');
-const { request } = require('./../src/config/test-config');
-const { base64 } = require('./../src/config/utils');
-
+const { TEST_USER } = require("../src/config");
+const { request } = require("./../src/config/test-config");
+const { base64 } = require("./../src/config/utils");
 
 const user = TEST_USER;
 
 beforeAll(async () => {
+
     const userData = {
         "email": user.email,
         "password": user.password
@@ -17,23 +17,6 @@ beforeAll(async () => {
     user.accessToken = loggedIn.body.accessToken;
 });
 
-
-describe('Sale Item Route', () => {
-    it('should create a new sale item ', async () => {
-        const newSaleItem = {
-            accessToken: user.accessToken,
-            name: 'chai2',
-            quantity: 50,
-            price: 100,
-            StoreId: 1,
-
-        };
-        const SaleItem = await request.post('/sale').send(newSaleItem);
-        const addedSaleItem = SaleItem.body;
-        expect(addedSaleItem.name).toEqual(newSaleItem.name);
-        expect(addedSaleItem.quantity).toEqual(newSaleItem.quantity);
-    });
-});
 
 
 
@@ -50,16 +33,20 @@ describe('Sale Item Route', () => {
 //     });
 // });
 
+
+
+
 describe('User Sign In', () => {
     it('should sign in the user', async () => {
 
         const userData = {
-            "email": "eman@eman.eman",
-            "password": "1234"
+            "email": user.email,
+            "password": user.password
         };
         const encodedCredintial = base64.encode(`${userData.email}:${userData.password}`);
         const loggedIn = await request.post('/signin').set('Authorization', encodedCredintial);
         expect(loggedIn.status).toEqual(200);
-        expect(loggedIn.body.username).toEqual('eman');
+        expect(loggedIn.body.username).toEqual(user.username);
     });
 });
+
