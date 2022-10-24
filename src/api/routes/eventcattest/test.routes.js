@@ -7,11 +7,11 @@ const { getEvents, getEventDetalis, createEvent, updateEvent, deleteEvent } = re
 
 const testeventRouter = express.Router()
 
-testeventRouter.get('/testevent', getEvents)
-testeventRouter.get('/testevent/:id', getEventDetalis)
-testeventRouter.post('/testevent', createEvent)
-testeventRouter.put('/testevent/:id', updateEvent)
-testeventRouter.delete('/testevent/:id', deleteEvent)
+testeventRouter.get('/testevent', isUserVerefied, isAuthorized, getEvents)
+testeventRouter.get('/testevent/:id', isUserVerefied, isAuthorized, getEventDetalis)
+testeventRouter.post('/testevent', isUserVerefied, createEvent)
+testeventRouter.put('/testevent/:id', isUserVerefied, isAuthorized, updateEvent)
+testeventRouter.delete('/testevent/:id', isUserVerefied, isAuthorized, deleteEvent)
 
 module.exports = {
     testeventRouter

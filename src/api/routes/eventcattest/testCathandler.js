@@ -11,14 +11,13 @@ const createCat = async (req, res, next) => {
         const result = await sequelize.transaction(async () => {
             try {
                 const createdCategory = await categoryCollection.create(newCategory);
-                const results = {};
+                const results = { createdCategory };
                 if (data.events) {
                     results.toBeAddedEvents = await eventCollection.readAllRecordsWithCondition(data.events);
                     results.completeCategory = await createdCategory.addEvents(results.toBeAddedEvents);
                 }
                 return results;
             } catch (e) {
-                console.log(e);
                 throw new Error(e.message);
             }
         });
@@ -77,7 +76,6 @@ const updateCategory = async (req, res, next) => {
                     addEvent
                 };
             } catch (error) {
-                console.log(error);
                 throw new Error(error.message);
             }
         });
