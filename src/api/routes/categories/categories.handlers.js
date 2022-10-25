@@ -1,82 +1,97 @@
 'use strict';
 
-const { eventCollection, categoryCollection } = require("../../../models");
-const { extractCategories } = require("../../controllers/bussiness-logic/categoriesOperations");
-const AppError = require("../../controllers/errorControllers/error-class");
+const { eventCollection, categoryCollection, eventCatCollection, sequelize } = require('../../../models');
+const { creatEvent } = require('../../controllers/bussiness-logic/categoriesOperations');
+const { AppError } = require('../../controllers/errorControllers');
 
-
-const createCatWithEvent = async (req, res, next) => {
+const createCat = async (req, res, next) => {
     try {
         const data = req.body;
-        const { events } = data;
-        const createdCategory = await categoryCollection.createWithNested(data, ['events']);
-        const result = {
-            events,
-            createdCategory
-        };
+        const newCategory = { "name": data.name };
+        const result = await sequelize.transaction(async () => {
+            try {
+                const createdCategory = await categoryCollection.create(newCategory);
+                const results = { createdCategory };
+                if (data.events) {
+                    results.toBeAddedEvents = await eventCollection.readAllRecordsWithCondition(data.events);
+                    results.completeCategory = await createdCategory.addEvents(results.toBeAddedEvents);
+                }
+                return results;
+            } catch (e) {
+                throw new Error(e.message);
+            }
+        });
         res.status(200).send(result);
+    } catch (e) {
 
-    } catch (error) {
-        next(new AppError(500, error.message));
+        next(new AppError(401, e.message));
     }
 };
 
-
-
-const createEventAndAddCategories = async (req, res, next) => {
+const getCategory = async (req, res, next) => {
     try {
-        const data = req.body;
-        const newEvent = await eventCollection.create(data);
-        const { newCategories, existingCategories } = extractCategories(data);
-        const createdCategories = await categoryCollection.createInBulk(newCategories);
-        const toBeAddedCategories = await categoryCollection.readAllRecordsWithCondition(existingCategories);
-        const completeEvent = await newEvent.addCategories([...createdCategories, ...toBeAddedCategories]);
-        const results = {
-            newCategories,
-            existingCategories,
-            createdCategories,
-            toBeAddedCategories,
-            completeEvent
-        };
-        res.status(200).send(results);
-    } catch (error) {
-        next(new AppError(500, error.message));
+        const categoriesData = await categoryCollection.readAllPopulated();
+        res.status(200).json(categoriesData);
+    } catch (e) {
+        next(new AppError(500, e.message));
     }
 };
 
-
-
-
-const findAll = async (req, res, next) => {
-    const data = await categoryCollection.readAllPopulated();
-    res.status(200).send(data);
-};
-const updateExistingCatEvents = async (req, res, next) => {
+const getCategoryDetalis = async (req, res, next) => {
     try {
-        const data = req.body;
         const { id } = req.params;
-        const { events } = data;
-        const data1 = { id };
-        const foundCategory = await categoryCollection.populateById(data1);
-        const data2 = events;
-        const foundEvents = await eventCollection.readAllRecordsWithCondition(data2);
-        const addedEvents = await foundCategory.addEvents(foundEvents);
-        const result = {
-            events,
-            foundCategory,
-            foundEvents,
-            addedEvents
-        };
-        res.status(200).send(result);
+        const categoryDetails = await categoryCollection.populateById({ id });
+        res.status(200).json(categoryDetails);
     } catch (error) {
-        next(new AppError(500, error.message));
+        next(new AppError(500, 'Server Error'));
     }
 };
 
+const deleteCategory = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const deleteCategoory = await categoryCollection.destroy(id);
+        res.status(204).json(deleteCategoory);
+    } catch (e) {
+        next(new AppError(401, e.message));
+    }
+};
+
+const updateCategory = async (req, res, next) => {
+    try {
+        const newEvent = req.body.EventsCategory.new;
+        const deleteCEventID = req.body.EventsCategory.cancelled;
+        const { id } = req.params;
+        const results = await sequelize.transaction(async () => {
+            try {
+                const foundCategory = await categoryCollection.populateById({ id });
+                const addEvent = creatEvent(foundCategory, newEvent);
+                if (deleteCEventID) await eventCatCollection.destroyEventCat(deleteCEventID.id, id);
+                return {
+                    foundCategory,
+                    addEvent
+                };
+            } catch (error) {
+                throw new Error(error.message);
+            }
+        });
+
+        const result = {
+            results,
+            newEvent,
+            deleteCEventID
+        };
+        res.status(201).json(result);
+    } catch (e) {
+        next(new AppError(401, e.message));
+    }
+}; ``
 
 module.exports = {
-    createCatWithEvent,
-    updateExistingCatEvents,
-    findAll,
-    createEventAndAddCategories
+    createCat,
+    updateCategory,
+    deleteCategory,
+    getCategory,
+    getCategoryDetalis
 };

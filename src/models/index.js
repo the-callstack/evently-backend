@@ -26,7 +26,6 @@ const {
   createTrackerCollection,
   createEventCollection,
   createCategoryCollection,
-  createtestCollection,
 } = require("../api/collections/composer");
 const createEventCategorieModel = require("./schemas/eventsCategorie.model");
 
@@ -110,9 +109,8 @@ const orderCollection = createOrderCollection(orderModel);
 
 const eventCollection = createEventCollection(eventModel);
 const categoryCollection = createCategoryCollection(categoryModel);
-
-const testCollection = createtestCollection(eventModel);
 const eventCatCollection = createGenericCollections(eventCategorYModel);
+
 
 module.exports = {
   sequelize,
@@ -126,6 +124,5 @@ module.exports = {
   rentalTrackerCollection,
   eventCollection,
   categoryCollection,
-  testCollection,
   eventCatCollection,
 };
