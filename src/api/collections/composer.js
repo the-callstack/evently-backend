@@ -28,7 +28,6 @@ const canReadAllRecords = (model) => {
   };
 };
 
-
 const canReadAllRecordsWithCondition = (model) => {
   return {
     readAllRecordsWithCondition: async (condition) => {
@@ -74,7 +73,6 @@ const canFindByEmailOrPhone = (model) => {
 //     }
 // }
 
-
 const canPopulateOneRecordById = (model) => {
   return {
     populateById: async (condition, args) => {
@@ -82,13 +80,13 @@ const canPopulateOneRecordById = (model) => {
         const data = args.map((model) => {
           return {
             association: model,
-            attributes: { exclude: ['password'] }
+            attributes: { exclude: ["password"] },
           };
         });
         try {
           return await model.findOne({
             where: condition,
-            include: [...data]
+            include: [...data],
           });
         } catch (e) {
           throw new Error(e.message);
@@ -100,17 +98,16 @@ const canPopulateOneRecordById = (model) => {
             include: {
               all: true,
               // nested: true,
-              attributes: { exclude: ['password'] }
+              attributes: { exclude: ["password"] },
             },
-            attributes: { exclude: ['password'] }
-
+            attributes: { exclude: ["password"] },
           });
           return result;
         } catch (e) {
           throw new Error(e.message);
         }
       }
-    }
+    },
   };
 };
 
@@ -136,7 +133,7 @@ const canPopualteOneRecordWithNestedData = (model) => {
           include: {
             association: firstChild,
             where: {
-              id: categories
+              id: categories,
             },
             // include: {
             //     association: 'rentalItems',
@@ -144,17 +141,15 @@ const canPopualteOneRecordWithNestedData = (model) => {
             //         price: { [Op.lt]: 15 }
             //     }
             // }
-            include: [...data]
-
-          }
+            include: [...data],
+          },
         });
       } catch (error) {
         throw new Error(error.message);
       }
-    }
+    },
   };
 };
-
 
 const canCreateOneRecord = (model) => {
   return {
@@ -232,20 +227,16 @@ const canDestroyEventCatRecord = (model) => {
       try {
         return await model.destroy({
           where: {
-            [Op.and]: [
-              { EventId: id },
-              { CategoryId: categories }
-            ]
+            [Op.and]: [{ EventId: id }, { CategoryId: categories }],
           },
-          returning: true
+          returning: true,
         });
       } catch (e) {
         throw new Error(e.message);
       }
-    }
+    },
   };
 };
-
 
 const canReadPopulatedRecords = (model) => {
   return {
@@ -352,7 +343,6 @@ const createOrderDetailsCollection = (model) => {
 };
 
 const createSaleItemCollection = (model) => {
-
   return {
     ...canReadAllRecords(model),
     ...canPopulateOneRecordById(model),
@@ -360,13 +350,11 @@ const createSaleItemCollection = (model) => {
     ...canDestroyRecord(model),
     ...canCreateOneRecord(model),
     ...canIncrementValue(model),
-    ...canReadPopulatedRecords(model)
+    ...canReadPopulatedRecords(model),
   };
-
 };
 
 const createEventCollection = (model) => {
-
   return {
     ...canReadPopulatedRecords(model),
     ...canReadAllRecords(model),
@@ -378,8 +366,8 @@ const createEventCollection = (model) => {
     ...canUpdateInBulk(model),
     ...canUpdateRecord(model),
     ...canDestroyEventCatRecord(model),
+    ...canPopualteOneRecordWithNestedData(model),
   };
-
 };
 
 const createtestCollection = (model) => {
@@ -408,7 +396,6 @@ const createCategoryCollection = (model) => {
     ...canUpdateInBulk(model),
     ...canUpdateRecord(model),
     ...canDestroyEventCatRecord(model),
-
   };
 };
 
