@@ -1,24 +1,37 @@
-'use strict';
+"use strict";
 
-const { DataTypes, Sequelize, DATABASE_URL, sequelizeOption } = require('../config');
+const {
+  DataTypes,
+  Sequelize,
+  DATABASE_URL,
+  sequelizeOption,
+} = require("../config");
 
-const createItemSaleModel = require('./schemas/itemSale.model');
-const createItemRentalModel = require('./schemas/itemRental.model');
-const createOrderModel = require('./schemas/order.model');
-const createCategoryModel = require('./schemas/category.model');
-const createEventModel = require('./schemas/event.model');
-const createUsertModel = require('./schemas/user.model');
-const createOrderDetailsModel = require('./schemas/orderDetails.model');
-const createStoreModel = require('./schemas/store.model');
-const createRentalTrackingModel = require('./schemas/rentalTracking.model');
+const createItemSaleModel = require("./schemas/itemSale.model");
+const createItemRentalModel = require("./schemas/itemRental.model");
+const createOrderModel = require("./schemas/order.model");
+const createCategoryModel = require("./schemas/category.model");
+const createEventModel = require("./schemas/event.model");
+const createUsertModel = require("./schemas/user.model");
+const createOrderDetailsModel = require("./schemas/orderDetails.model");
+const createStoreModel = require("./schemas/store.model");
+const createRentalTrackingModel = require("./schemas/rentalTracking.model");
 
-
-const { createGenericCollections, createAuthCollection, createSaleItemCollection, createOrderDetailsCollection, createOrderCollection, createTrackerCollection, createEventCollection, createCategoryCollection, createtestCollection } = require("../api/collections/composer");
-const createEventCategorieModel = require('./schemas/eventsCategorie.model');
-
+const {
+  createGenericCollections,
+  createAuthCollection,
+  createSaleItemCollection,
+  createOrderDetailsCollection,
+  createOrderCollection,
+  createTrackerCollection,
+  createEventCollection,
+  createCategoryCollection,
+  createtestCollection,
+} = require("../api/collections/composer");
+const createEventCategorieModel = require("./schemas/eventsCategorie.model");
 
 const sequelize = new Sequelize(
-  DATABASE_URL,
+  DATABASE_URL
   // sequelizeOption
 );
 
@@ -33,56 +46,57 @@ const categoryModel = createCategoryModel(sequelize, DataTypes);
 const userModel = createUsertModel(sequelize, DataTypes);
 const eventCategorYModel = createEventCategorieModel(sequelize, DataTypes);
 
-userModel.hasMany(storeModel, { as: 'stores' });
+userModel.hasMany(storeModel, { as: "stores" });
 storeModel.belongsTo(userModel);
 
-storeModel.hasMany(saleItemModel, { as: 'saleItems' });
+storeModel.hasMany(saleItemModel, { as: "saleItems" });
 saleItemModel.belongsTo(storeModel);
 
-storeModel.hasMany(rentalItemModel, { as: 'rentalItems' });
+storeModel.hasMany(rentalItemModel, { as: "rentalItems" });
 rentalItemModel.belongsTo(storeModel);
 
-rentalItemModel.hasMany(rentalTrackingmodel, { as: 'trackers' });
+rentalItemModel.hasMany(rentalTrackingmodel, { as: "trackers" });
 rentalTrackingmodel.belongsTo(rentalItemModel);
 
-categoryModel.hasMany(saleItemModel, { as: 'saleItems' });
-saleItemModel.belongsTo(categoryModel, { targetKey: 'name', foreignKey: 'CatName' });
+categoryModel.hasMany(saleItemModel, { as: "saleItems" });
+saleItemModel.belongsTo(categoryModel, {
+  targetKey: "name",
+  foreignKey: "CatName",
+});
 
-categoryModel.hasMany(rentalItemModel, { as: 'rentalItems' });
-rentalItemModel.belongsTo(categoryModel, { targetKey: 'name', foreignKey: 'CatName' });
+categoryModel.hasMany(rentalItemModel, { as: "rentalItems" });
+rentalItemModel.belongsTo(categoryModel, {
+  targetKey: "name",
+  foreignKey: "CatName",
+});
 
-userModel.hasMany(orderModel, { as: 'orders' });
+userModel.hasMany(orderModel, { as: "orders" });
 orderModel.belongsTo(userModel);
 
-orderModel.hasMany(orderDetailsModel, { as: 'details' });
+orderModel.hasMany(orderDetailsModel, { as: "details" });
 orderDetailsModel.belongsTo(orderModel);
 
-saleItemModel.hasMany(orderDetailsModel, { as: 'orders' });
+saleItemModel.hasMany(orderDetailsModel, { as: "orders" });
 orderDetailsModel.belongsTo(saleItemModel);
 
-rentalItemModel.hasMany(orderDetailsModel, { as: 'orders' });
+rentalItemModel.hasMany(orderDetailsModel, { as: "orders" });
 orderDetailsModel.belongsTo(rentalItemModel);
 
 eventModel.belongsToMany(categoryModel, {
-  as: 'categories',
-  through: 'EventsCategory',
+  as: "categories",
+  through: "EventsCategory",
 });
 
 categoryModel.belongsToMany(eventModel, {
-  as: 'events',
-  through: 'EventsCategory',
+  as: "events",
+  through: "EventsCategory",
 });
 
-
-eventModel.hasMany(eventCategorYModel, { as: 'EventsCategory' });
+eventModel.hasMany(eventCategorYModel, { as: "EventsCategory" });
 eventCategorYModel.belongsTo(eventModel);
 
-categoryModel.hasMany(eventCategorYModel, { as: 'EventsCategory' });
+categoryModel.hasMany(eventCategorYModel, { as: "EventsCategory" });
 eventCategorYModel.belongsTo(categoryModel);
-
-
-
-
 
 const userCollection = createGenericCollections(userModel);
 const authCollection = createAuthCollection(userModel);
@@ -94,16 +108,11 @@ const rentalItemsCollection = createGenericCollections(rentalItemModel);
 const rentalTrackerCollection = createTrackerCollection(rentalTrackingmodel);
 const orderCollection = createOrderCollection(orderModel);
 
-
 const eventCollection = createEventCollection(eventModel);
 const categoryCollection = createCategoryCollection(categoryModel);
 
 const testCollection = createtestCollection(eventModel);
 const eventCatCollection = createGenericCollections(eventCategorYModel);
-
-
-
-
 
 module.exports = {
   sequelize,
@@ -118,5 +127,5 @@ module.exports = {
   eventCollection,
   categoryCollection,
   testCollection,
-  eventCatCollection
+  eventCatCollection,
 };

@@ -7,11 +7,12 @@ const { getCategory, getCategoryDetalis, updateCategory, deleteCategory, createC
 
 const testCatRouter = express.Router()
 
-testCatRouter.get('/testcat', getCategory)
-testCatRouter.get('/testcat/:id', getCategoryDetalis)
+testCatRouter.get('/testcat', isUserVerefied, isAuthorized, getCategory)
+testCatRouter.get('/testcat/:id', isUserVerefied, isAuthorized, getCategoryDetalis)
 testCatRouter.post('/testcat', createCat)
-testCatRouter.put('/testcat/:id', updateCategory)
-testCatRouter.delete('/testcat/:id', deleteCategory)
+testCatRouter.put('/testcat/:id', isUserVerefied, isAuthorized, updateCategory)
+testCatRouter.delete('/testcat/:id', isUserVerefied, isAuthorized, deleteCategory)
+
 
 module.exports = {
     testCatRouter

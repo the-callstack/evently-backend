@@ -13,6 +13,7 @@ const { eventsCatRouter } = require("./api/routes/events/event.routes");
 const { catRouter } = require("./api/routes/categories/categories.routes");
 const { testeventRouter } = require("./api/routes/eventcattest/test.routes");
 const { testCatRouter } = require("./api/routes/eventcattest/testCat.routes");
+const { packageRouter } = require("./api/routes/packages/package.routes");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(helmet());
 
+app.use(packageRouter);
 app.use(catRouter);
 app.use(orderDetailsRouter);
 app.use(orderRouter);

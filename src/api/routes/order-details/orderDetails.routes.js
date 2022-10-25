@@ -1,16 +1,26 @@
-'use strict'
+"use strict";
 
-const { express } = require("../../../config")
-const { addOrderDetails, createFilledOrder } = require("./orderDetails.handlers")
+const { express } = require("../../../config");
+const {
+  isAuthorized,
+} = require("../../controllers/auth-controllers/isAuthorized");
+const {
+  isUserVerefied,
+} = require("../../controllers/auth-controllers/isUserVerefied");
+const {
+  addOrderDetails,
+  createFilledOrder,
+} = require("./orderDetails.handlers");
 
+const orderDetailsRouter = express.Router();
 
-
-
-const orderDetailsRouter = express.Router()
-
-
-orderDetailsRouter.post('/details', createFilledOrder)
+orderDetailsRouter.post(
+  "/details",
+  isUserVerefied,
+  isAuthorized,
+  createFilledOrder
+);
 
 module.exports = {
-    orderDetailsRouter
-}
+  orderDetailsRouter,
+};
