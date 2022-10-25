@@ -39,20 +39,26 @@ describe('Events Routes', () => {
             eventType: "test update event",
             accessToken: user.accessToken,
         };
+
+        const newCategory = {
+            name: "test create category2",
+            accessToken: user.accessToken,
+        };
         const createdEvent = await request.post('/event').send(newEvent);
         const addedEvent = createdEvent.body;
-
+        const createdCat = await request.post('/category').send(newCategory);
+        const addedCategory = createdCat.body;
         const updateEvent = {
             accessToken: user.accessToken,
             EventsCategory: {
                 new: {
                     id: [
-                        3
+                        addedCategory.createdCategory.id
                     ]
                 },
                 cancelled: {
                     id: [
-                        3
+                        addedCategory.createdCategory.id
                     ]
                 }
             }
@@ -61,8 +67,8 @@ describe('Events Routes', () => {
         expect(newUpdateEvent.body.deleted).toEqual(1)
         expect(newUpdateEvent.body.addCategories[0].EventId).toEqual(addedEvent.createdEvent.id)
         expect(newUpdateEvent.body.addCategories[0].CategoryId).toEqual(updateEvent.EventsCategory.new.id[0])
-
         const deletedevent = await request.delete(`/event/${addedEvent.createdEvent.id}`).send(newEvent);
+        const deletedCategory = await request.delete(`/category/${addedCategory.createdCategory.id}`).send(newCategory);
     });
 
     it('should get an event ', async () => {

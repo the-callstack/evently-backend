@@ -23,7 +23,7 @@ afterEach(async () => {
 })
 
 describe('Categories Routes', () => {
-    it('should create and delete an category ', async () => {
+    it('should create a new category ', async () => {
         const newCategory = {
             name: "test create category",
             accessToken: user.accessToken,
@@ -40,6 +40,13 @@ describe('Categories Routes', () => {
             name: "test update category",
             accessToken: user.accessToken,
         };
+        const newEvent = {
+            eventType: "test update event2",
+            accessToken: user.accessToken,
+        };
+        const createdEvent = await request.post('/event').send(newEvent);
+        const addedEvent = createdEvent.body;
+
         const createdCat = await request.post('/category').send(newCategory);
         const addedCategory = createdCat.body;
         const updateCategory = {
@@ -47,12 +54,12 @@ describe('Categories Routes', () => {
             EventsCategory: {
                 new: {
                     id: [
-                        3
+                        addedEvent.createdEvent.id
                     ]
                 },
                 cancelled: {
                     id: [
-                        3
+                        addedEvent.createdEvent.id
                     ]
                 }
             }
@@ -63,6 +70,7 @@ describe('Categories Routes', () => {
         expect(newUpdateCategory.body.newEvent.id[0]).toEqual(updateCategory.EventsCategory.new.id[0])
 
         const deletedCategory = await request.delete(`/category/${addedCategory.createdCategory.id}`).send(newCategory);
+        const deletedevent = await request.delete(`/event/${addedEvent.createdEvent.id}`).send(newEvent);
     });
 
     it('should get an Category ', async () => {
