@@ -1,19 +1,18 @@
-'use strict';
+'use strict'
 
-const { express } = require("../../../config");
-const { createEventWithCat, updateEventCat } = require("./events.handlers");
+const { express } = require("../../../config")
+const { isAuthorized } = require("../../controllers/auth-controllers/isAuthorized")
+const { isUserVerefied } = require("../../controllers/auth-controllers/isUserVerefied")
+const { getEvents, getEventDetalis, createEvent, updateEvent, deleteEvent } = require("./event.handlers")
 
+const eventRouter = express.Router()
 
-
-const eventsCatRouter = express.Router();
-
-
-
-eventsCatRouter.post('/event', createEventWithCat);
-eventsCatRouter.put('/event/:id', updateEventCat);
-
-
+eventRouter.get('/event', isUserVerefied, isAuthorized, getEvents)
+eventRouter.get('/event/:id', isUserVerefied, isAuthorized, getEventDetalis)
+eventRouter.post('/event', isUserVerefied, createEvent)
+eventRouter.put('/event/:id', isUserVerefied, isAuthorized, updateEvent)
+eventRouter.delete('/event/:id', isUserVerefied, isAuthorized, deleteEvent)
 
 module.exports = {
-    eventsCatRouter
-};
+    eventRouter
+}

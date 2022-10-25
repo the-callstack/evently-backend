@@ -23,15 +23,15 @@ afterEach(async () => {
 })
 
 describe('Categories Routes', () => {
-    it('should create and delete an category ', async () => {
+    it('should create a new category ', async () => {
         const newCategory = {
             name: "test create category",
             accessToken: user.accessToken,
         };
-        const createdCat = await request.post('/testcat').send(newCategory);
+        const createdCat = await request.post('/category').send(newCategory);
         const addedCategory = createdCat.body;
         expect(addedCategory.createdCategory.name).toEqual(newCategory.name);
-        const deletedCategory = await request.delete(`/testcat/${addedCategory.createdCategory.id}`).send(newCategory);
+        const deletedCategory = await request.delete(`/category/${addedCategory.createdCategory.id}`).send(newCategory);
 
     });
 
@@ -40,29 +40,37 @@ describe('Categories Routes', () => {
             name: "test update category",
             accessToken: user.accessToken,
         };
-        const createdCat = await request.post('/testcat').send(newCategory);
+        const newEvent = {
+            eventType: "test update event2",
+            accessToken: user.accessToken,
+        };
+        const createdEvent = await request.post('/event').send(newEvent);
+        const addedEvent = createdEvent.body;
+
+        const createdCat = await request.post('/category').send(newCategory);
         const addedCategory = createdCat.body;
         const updateCategory = {
             accessToken: user.accessToken,
             EventsCategory: {
                 new: {
                     id: [
-                        3
+                        addedEvent.createdEvent.id
                     ]
                 },
                 cancelled: {
                     id: [
-                        3
+                        addedEvent.createdEvent.id
                     ]
                 }
             }
         }
-        const newUpdateCategory = await request.put(`/testcat/${addedCategory.createdCategory.id}`).send(updateCategory);
+        const newUpdateCategory = await request.put(`/category/${addedCategory.createdCategory.id}`).send(updateCategory);
         // expect(newUpdateCategory.body.deleted).toEqual(1)
         expect(newUpdateCategory.body.results.foundCategory.id).toEqual(addedCategory.createdCategory.id)
         expect(newUpdateCategory.body.newEvent.id[0]).toEqual(updateCategory.EventsCategory.new.id[0])
 
-        const deletedCategory = await request.delete(`/testcat/${addedCategory.createdCategory.id}`).send(newCategory);
+        const deletedCategory = await request.delete(`/category/${addedCategory.createdCategory.id}`).send(newCategory);
+        const deletedevent = await request.delete(`/event/${addedEvent.createdEvent.id}`).send(newEvent);
     });
 
     it('should get an Category ', async () => {
@@ -71,13 +79,13 @@ describe('Categories Routes', () => {
             accessToken: user.accessToken,
         };
 
-        const createdCat = await request.post('/testcat').send(newCategory);
+        const createdCat = await request.post('/category').send(newCategory);
         const addedCategory = createdCat.body;
-        const getCategory = await request.get(`/testcat/${addedCategory.createdCategory.id}`).send(newCategory);
+        const getCategory = await request.get(`/category/${addedCategory.createdCategory.id}`).send(newCategory);
         expect(getCategory.body.id).toEqual(addedCategory.createdCategory.id)
         expect(getCategory.body.name).toEqual(addedCategory.createdCategory.name)
 
-        const deletedCategory = await request.delete(`/testcat/${addedCategory.createdCategory.id}`).send(newCategory);
+        const deletedCategory = await request.delete(`/category/${addedCategory.createdCategory.id}`).send(newCategory);
 
 
     });
@@ -87,9 +95,9 @@ describe('Categories Routes', () => {
             name: "test update category",
             accessToken: user.accessToken,
         };
-        const createdCat = await request.post('/testcat').send(newCategory);
+        const createdCat = await request.post('/category').send(newCategory);
         const addedCategory = createdCat.body;
-        const deletedCategory = await request.delete(`/testcat/${addedCategory.createdCategory.id}`).send(newCategory);
+        const deletedCategory = await request.delete(`/category/${addedCategory.createdCategory.id}`).send(newCategory);
         expect(deletedCategory.status).toEqual(204);
     });
 

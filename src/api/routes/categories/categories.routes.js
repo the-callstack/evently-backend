@@ -1,20 +1,18 @@
-'use strict';
+'use strict'
 
-const { express } = require("../../../config");
-const { createCatWithEvent, updateExistingCatEvents, findAll, createEventAndAddCategories } = require("./categories.handlers");
+const { express } = require("../../../config")
+const { isAuthorized } = require("../../controllers/auth-controllers/isAuthorized")
+const { isUserVerefied } = require("../../controllers/auth-controllers/isUserVerefied")
+const { getCategory, getCategoryDetalis, createCat, updateCategory, deleteCategory } = require("./categories.handlers")
 
+const CategoryRouter = express.Router()
 
-const catRouter = express.Router();
-
-
-
-
-catRouter.post('/cat', createCatWithEvent);
-catRouter.put('/cat/:id', updateExistingCatEvents);
-catRouter.get('/cat', findAll);
-catRouter.patch('/cat', createEventAndAddCategories);
-
+CategoryRouter.get('/category', isUserVerefied, isAuthorized, getCategory)
+CategoryRouter.get('/category/:id', isUserVerefied, isAuthorized, getCategoryDetalis)
+CategoryRouter.post('/category', createCat)
+CategoryRouter.put('/category/:id', isUserVerefied, isAuthorized, updateCategory)
+CategoryRouter.delete('/category/:id', isUserVerefied, isAuthorized, deleteCategory)
 
 module.exports = {
-    catRouter
-};
+    CategoryRouter
+}

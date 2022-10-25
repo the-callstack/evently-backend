@@ -9,10 +9,8 @@ const { saleItemRouter } = require("./api/routes/saleItem/saleItem.routes");
 const { rentalItemRouter } = require("./api/routes/rental-items/rentalItem.routes");
 const { orderRouter } = require("./api/routes/Order/order.routes");
 const { orderDetailsRouter } = require("./api/routes/order-details/orderDetails.routes");
-const { eventsCatRouter } = require("./api/routes/events/event.routes");
-const { catRouter } = require("./api/routes/categories/categories.routes");
-const { testeventRouter } = require("./api/routes/eventcattest/test.routes");
-const { testCatRouter } = require("./api/routes/eventcattest/testCat.routes");
+const { eventRouter } = require("./api/routes/events/event.routes");
+const { CategoryRouter } = require("./api/routes/categories/categories.routes");
 const { packageRouter } = require("./api/routes/packages/package.routes");
 
 const app = express();
@@ -24,16 +22,14 @@ app.use(express.json());
 app.use(helmet());
 
 app.use(packageRouter);
-app.use(catRouter);
 app.use(orderDetailsRouter);
 app.use(orderRouter);
 app.use(storeRoutes);
 app.use(rentalItemRouter);
 app.use(saleItemRouter);
 app.use(authRouter);
-app.use(eventsCatRouter);
-app.use(testeventRouter);
-app.use(testCatRouter);
+app.use(eventRouter);
+app.use(CategoryRouter);
 app.get('/', (req, res) => {
     res.status(200).send('Hello World');
 });

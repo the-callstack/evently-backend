@@ -76,83 +76,83 @@ const canFindByEmailOrPhone = (model) => {
 
 
 const canPopulateOneRecordById = (model) => {
-    return {
-        populateById: async (condition, args) => {
-            if (args) {
-                const data = args.map((model) => {
-                    return {
-                        association: model,
-                        attributes: { exclude: ['password'] }
-                    };
-                });
-                try {
-                    return await model.findOne({
-                        where: condition,
-                        include: [...data]
-                    });
-                } catch (e) {
-                    throw new Error(e.message);
-                }
-            } else {
-                try {
-                    const result = await model.findOne({
-                        where: condition,
-                        include: {
-                            all: true,
-                            // nested: true,
-                            attributes: { exclude: ['password'] }
-                        },
-                        attributes: { exclude: ['password'] }
-
-                    });
-                    return result;
-                } catch (e) {
-                    throw new Error(e.message);
-                }
-            }
+  return {
+    populateById: async (condition, args) => {
+      if (args) {
+        const data = args.map((model) => {
+          return {
+            association: model,
+            attributes: { exclude: ['password'] }
+          };
+        });
+        try {
+          return await model.findOne({
+            where: condition,
+            include: [...data]
+          });
+        } catch (e) {
+          throw new Error(e.message);
         }
-    };
+      } else {
+        try {
+          const result = await model.findOne({
+            where: condition,
+            include: {
+              all: true,
+              // nested: true,
+              attributes: { exclude: ['password'] }
+            },
+            attributes: { exclude: ['password'] }
+
+          });
+          return result;
+        } catch (e) {
+          throw new Error(e.message);
+        }
+      }
+    }
+  };
 };
 
 const canPopualteOneRecordWithNestedData = (model) => {
-    return {
-        populateWithNested: async (id, firstChild, children, categories) => {
-            try {
-                const data = children.map((model) => {
-                    return {
-                        association: model,
-                        // as: model,
-                        // attributes:{price}
-                        // limit: 1,
-                        // where: {
-                        //     price: {
-                        //         [Op.lt]: 15
-                        //     }
-                        // }
-                    };
-                });
-                return await model.findOne({
-                    where: { id },
-                    include: {
-                        association: firstChild,
-                        where: {
-                            id: categories
-                        },
-                        // include: {
-                        //     association: 'rentalItems',
-                        //     where: {
-                        //         price: { [Op.lt]: 15 }
-                        //     }
-                        // }
-                        include: [...data]
+  return {
+    populateWithNested: async (id, firstChild, children, categories) => {
+      try {
+        const data = children.map((model) => {
+          return {
+            association: model,
+            // as: model,
+            // attributes:{price}
+            // limit: 1,
+            // where: {
+            //     price: {
+            //         [Op.lt]: 15
+            //     }
+            // }
+          };
+        });
+        return await model.findOne({
+          where: { id },
+          include: {
+            association: firstChild,
+            where: {
+              id: categories
+            },
+            // include: {
+            //     association: 'rentalItems',
+            //     where: {
+            //         price: { [Op.lt]: 15 }
+            //     }
+            // }
+            include: [...data]
 
-                    }
-                });
-            } catch (error) {
-                throw new Error(error.message);
-            }
-        }
-    };
+          }
+        });
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    }
+  };
 };
 
 
@@ -227,23 +227,23 @@ const canDestroyRecord = (model) => {
 };
 
 const canDestroyEventCatRecord = (model) => {
-    return {
-        destroyEventCat: async (id, categories) => {
-            try {
-                return await model.destroy({
-                    where: {
-                        [Op.and]: [
-                            { EventId: id },
-                            { CategoryId: categories }
-                        ]
-                    },
-                    returning: true
-                });
-            } catch (e) {
-                throw new Error(e.message);
-            }
-        }
-    };
+  return {
+    destroyEventCat: async (id, categories) => {
+      try {
+        return await model.destroy({
+          where: {
+            [Op.and]: [
+              { EventId: id },
+              { CategoryId: categories }
+            ]
+          },
+          returning: true
+        });
+      } catch (e) {
+        throw new Error(e.message);
+      }
+    }
+  };
 };
 
 
@@ -353,28 +353,32 @@ const createOrderDetailsCollection = (model) => {
 
 const createSaleItemCollection = (model) => {
 
-    return {
-        ...canReadAllRecords(model),
-        ...canPopulateOneRecordById(model),
-        ...canUpdateRecord(model),
-        ...canDestroyRecord(model),
-        ...canCreateOneRecord(model),
-        ...canIncrementValue(model),
-        ...canReadPopulatedRecords(model)
-    };
+  return {
+    ...canReadAllRecords(model),
+    ...canPopulateOneRecordById(model),
+    ...canUpdateRecord(model),
+    ...canDestroyRecord(model),
+    ...canCreateOneRecord(model),
+    ...canIncrementValue(model),
+    ...canReadPopulatedRecords(model)
+  };
 
 };
 
 const createEventCollection = (model) => {
 
-    return {
-        ...canCreateWithNested(model),
-        ...canCreateOneRecord(model),
-        ...canPopulateOneRecordById(model),
-        ...canReadAllRecordsWithCondition(model),
-        ...canDestroyEventCatRecord(model),
-        ...canPopualteOneRecordWithNestedData(model)
-    };
+  return {
+    ...canReadPopulatedRecords(model),
+    ...canReadAllRecords(model),
+    ...canCreateWithNested(model),
+    ...canCreateOneRecord(model),
+    ...canPopulateOneRecordById(model),
+    ...canReadAllRecordsWithCondition(model),
+    ...canDestroyRecord(model),
+    ...canUpdateInBulk(model),
+    ...canUpdateRecord(model),
+    ...canDestroyEventCatRecord(model),
+  };
 
 };
 
@@ -394,14 +398,17 @@ const createtestCollection = (model) => {
 
 const createCategoryCollection = (model) => {
   return {
+    ...canReadPopulatedRecords(model),
+    ...canReadAllRecords(model),
     ...canCreateWithNested(model),
     ...canCreateOneRecord(model),
     ...canPopulateOneRecordById(model),
     ...canReadAllRecordsWithCondition(model),
-    ...canReadPopulatedRecords(model),
-    ...canCreateInBulk(model),
     ...canDestroyRecord(model),
+    ...canUpdateInBulk(model),
+    ...canUpdateRecord(model),
     ...canDestroyEventCatRecord(model),
+
   };
 };
 
