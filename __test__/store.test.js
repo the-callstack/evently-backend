@@ -5,7 +5,7 @@ const { request } = require('./../src/config/test-config');
 const { base64 } = require('./../src/config/utils');
 
 
-const user = TEST_USER; 
+const user = TEST_USER;
 
 beforeAll(async () => {
     const userData = {
@@ -23,11 +23,12 @@ describe('Store Route', () => {
         const newStore = {
             storeName: 'test store',
             phone: '07',
-            UserId: user.id ,
+            UserId: user.id,
             accessToken: user.accessToken,
         };
         const store = await request.post('/store').send(newStore);
         const addedStore = store.body;
+        user.storeId = addedStore.id;
         expect(addedStore.storeName).toEqual(newStore.storeName);
         expect(addedStore.UserId).toEqual(newStore.UserId);
     });
@@ -38,7 +39,7 @@ describe('Store Route', () => {
             phone: '07000',
             accessToken: user.accessToken,
         };
-        const store = await request.put('/store/3').send(updateStore);
+        const store = await request.put(`/store/${user.storeId}`).send(updateStore);
         const updatedStore = store.body;
         expect(updatedStore[1][0].storeName).toEqual(updateStore.storeName);
         expect(updatedStore[1][0].phone).toEqual(updateStore.phone);
@@ -48,7 +49,7 @@ describe('Store Route', () => {
         const accessToken = {
             accessToken: user.accessToken
         };
-        const store = await request.delete('/store/19').send(accessToken);
+        const store = await request.delete(`/store/${user.storeId}`).send(accessToken);
         const deletedStore = store;
         expect(deletedStore.status).toEqual(204);
     });
@@ -65,5 +66,5 @@ describe('Store Route', () => {
         } else {
             expect(store.status).toEqual(500);
         }
-  });
+    });
 });

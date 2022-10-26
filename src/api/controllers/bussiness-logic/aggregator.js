@@ -20,7 +20,6 @@ const createPackage = async (eventId, budget, categories, attendance) => {
         const suggestedPackage = (() => {
             const pckg = {
                 totalPrice: 0,
-                mfa9ale: "اسعارنا زي أسعار السوق وأحسن، و خذ لفة تنوًر"
             };
             pckg.items = items.reduce((val, obj) => {
                 pckg.totalPrice = +obj.price * attendance;

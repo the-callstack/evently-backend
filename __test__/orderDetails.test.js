@@ -36,6 +36,7 @@ describe("Test creation of the order and details", () => {
           RentalItemId: 1,
           quantity: 15,
           price: 15,
+          trackerId: 22
         },
       ],
     };
