@@ -13,6 +13,7 @@ const rentalItemRouter = express.Router()
 
 rentalItemRouter.get('/rental/:id', isUserVerefied, getRentalItemDetails)
 rentalItemRouter.post('/rental', isUserVerefied, createRentalItem)
+rentalItemRouter.get('/rental', getAllRentalItems)
 rentalItemRouter.put('/rental/:id', isUserVerefied, isAuthorized, updateRentalItem)
 rentalItemRouter.delete('/rental/:id', isUserVerefied, isAuthorized, deleteRentalItem)
 
