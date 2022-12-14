@@ -2,7 +2,7 @@
 
 class AppError extends Error {
     constructor(status, msg) {
-        super(),
+     super(),
             this.status = status,
             this.msg = msg
     }

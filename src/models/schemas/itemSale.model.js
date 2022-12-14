@@ -21,6 +21,10 @@ const createItemSaleModel = (sequelize, DataTypes) => sequelize.define('SaleItem
     price: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    description:{
+        type:DataTypes.STRING,
+        allowNull: false
     }
 })
 module.exports = createItemSaleModel;
