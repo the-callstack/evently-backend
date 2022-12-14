@@ -61,7 +61,6 @@ const getAllRentalItems = async (req, res, next) => {
 
 const getByCategory = async (req, res, next) => {
   try {
-    console.log('=========',req.query.category);
     const { category } = req.query ;
     const rentalItems = await rentalItemsCollection.populateById({CategoryId: category});
     if(rentalItems){
