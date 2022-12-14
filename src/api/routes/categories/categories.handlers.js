@@ -51,8 +51,8 @@ const deleteCategory = async (req, res, next) => {
     try {
         const { id } = req.params;
 
-        const deleteCategoory = await categoryCollection.destroy(id);
-        res.status(204).json(deleteCategoory);
+        await categoryCollection.destroy(id);
+        res.status(200).json(id);
     } catch (e) {
         next(new AppError(401, e.message));
     }
