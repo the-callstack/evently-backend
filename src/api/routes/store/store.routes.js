@@ -17,11 +17,22 @@ const {
 
 const storeRoutes = express.Router();
 
-storeRoutes.get("/store", isUserVerefied, getStores);
+storeRoutes.get("/store",
+//  isUserVerefied,
+  getStores);
 storeRoutes.get("/store/:id", getStoreDetalis);
-storeRoutes.post("/store", isUserVerefied, createStore);
-storeRoutes.put("/store/:id", isUserVerefied, isAuthorized, updateStore);
-storeRoutes.delete("/store/:id", isUserVerefied, isAuthorized, deleteStore);
+storeRoutes.post("/store",
+//  isUserVerefied,
+  createStore);
+storeRoutes.put("/store/:id",
+//  isUserVerefied,
+  // isAuthorized,
+   updateStore);
+
+storeRoutes.delete("/store/:id",
+//  isUserVerefied,
+  // isAuthorized,
+   deleteStore);
 
 module.exports = {
   storeRoutes,

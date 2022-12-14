@@ -8,7 +8,9 @@ const { aggregatePackage } = require("./package.handlers");
 
 const packageRouter = express.Router();
 
-packageRouter.post("/package", isUserVerefied, aggregatePackage);
+packageRouter.post("/package",
+//  isUserVerefied,
+  aggregatePackage);
 
 module.exports = {
   packageRouter,

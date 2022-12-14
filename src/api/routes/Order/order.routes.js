@@ -18,11 +18,25 @@ const {
 
 const orderRouter = express.Router();
 
-orderRouter.post("/order", isUserVerefied, createOrder);
-orderRouter.get("/order", isUserVerefied, isAuthorized, getOrders);
-orderRouter.get("/order/:id", isUserVerefied, isAuthorized, getOrderDetails);
-orderRouter.put("/order/:id", isUserVerefied, isAuthorized, updateOrder);
-orderRouter.delete("/order/:id", isUserVerefied, isAuthorized, deleteOrder);
+orderRouter.post("/order",
+//  isUserVerefied,
+  createOrder);
+orderRouter.get("/order",
+//  isUserVerefied,
+  // isAuthorized,
+   getOrders);
+orderRouter.get("/order/:id",
+//  isUserVerefied,
+  // isAuthorized,
+   getOrderDetails);
+orderRouter.put("/order/:id",
+//  isUserVerefied,
+  // isAuthorized,
+   updateOrder);
+orderRouter.delete("/order/:id",
+//  isUserVerefied,
+  // isAuthorized,
+   deleteOrder);
 orderRouter.get("/userorder/:id", getAllOrdersForUser);
 
 module.exports = {

@@ -28,6 +28,7 @@ const signin = async (req, res, next) => {
             })
             .json(user)
     } catch (e) {
+        console.log('inside Catch');
         next(new AppError(401, 'Username or Password are incorrect'))
     }
 }

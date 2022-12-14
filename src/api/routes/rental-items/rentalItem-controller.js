@@ -59,10 +59,25 @@ const getAllRentalItems = async (req, res, next) => {
   }
 };
 
+const getByCategory = async (req, res, next) => {
+  try {
+    const { category } = req.query ;
+    const rentalItems = await rentalItemsCollection.populateById({CategoryId: category});
+    if(rentalItems){
+      res.status(200).json(rentalItems);
+    }else {
+      res.status(200).send('There is No Items available in this Category :(');
+    }
+  } catch (error) {
+    next(new AppError(500, error.message));
+  }
+}
+
 module.exports = {
   createRentalItem,
   updateRentalItem,
   deleteRentalItem,
   getRentalItemDetails,
   getAllRentalItems,
+  getByCategory
 };
