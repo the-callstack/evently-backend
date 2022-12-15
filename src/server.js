@@ -16,7 +16,12 @@ const { packageRouter } = require("./api/routes/packages/package.routes");
 const app = express();
 
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors(
+    {
+        credentials:true,
+        origin:["http://localhost:3000"]
+    }
+));
 app.use(cookieParser());
 app.use(express.json());
 app.use(helmet());

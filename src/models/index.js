@@ -125,4 +125,5 @@ module.exports = {
   eventCollection,
   categoryCollection,
   eventCatCollection,
+  userModel
 };
