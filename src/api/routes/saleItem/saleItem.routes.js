@@ -7,6 +7,8 @@ const {
   createSaleItem,
   updateSaleItem,
   deleteSaleItem,
+  getByCategory,
+  getByStore
 } = require("./saleItemController");
 const {
   isAuthorized,
@@ -24,6 +26,12 @@ saleItemRouter.get("/sale/:id",
 saleItemRouter.get("/sale",
 //  isUserVerefied,
   getAllSaleItems);
+saleItemRouter.get("/salecat?",
+//  isUserVerefied,
+getByCategory);
+saleItemRouter.get("/salestore?",
+//  isUserVerefied,
+  getByStore);
 saleItemRouter.post(
   "/sale",
   //  upload.single('img'),

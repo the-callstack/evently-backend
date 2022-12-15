@@ -58,6 +58,32 @@ const deleteSaleItem = async (req, res, next) => {
         next(new AppError(401, e.message));
     }
 };
+const getByStore = async (req, res, next) => {
+    try {
+      const { id } = req.query ;
+      const rentalItems = await saleItemCollection.populateById({StoreId: id});
+      if(rentalItems){
+        res.status(200).json(rentalItems);
+      }else {
+        res.status(200).send('There is No Items available in this Category :(');
+      }
+    } catch (error) {
+      next(new AppError(500, error.message));
+    }
+  }
+  const getByCategory = async (req, res, next) => {
+    try {
+      const { category } = req.query ;
+      const rentalItems = await rentalItemsCollection.populateById({CategoryId: category});
+      if(rentalItems){
+        res.status(200).json(rentalItems);
+      }else {
+        res.status(200).send('There is No Items available in this Category :(');
+      }
+    } catch (error) {
+      next(new AppError(500, error.message));
+    }
+  }
 
 
 module.exports = {
@@ -65,5 +91,7 @@ module.exports = {
     getAllSaleItems,
     deleteSaleItem,
     updateSaleItem,
-    createSaleItem
+    createSaleItem,
+    getByStore,
+    getByCategory
 };
