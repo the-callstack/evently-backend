@@ -1,6 +1,7 @@
 "use strict";
 
 const { express } = require("../../../config");
+const { checkBearer } = require("../../controllers/auth-controllers/checkBearer");
 const {
   isAuthorized,
 } = require("../../controllers/auth-controllers/isAuthorized");
@@ -27,8 +28,10 @@ rentalItemRouter.post("/rental",
 // isUserVerefied,
 createRentalItem);
 rentalItemRouter.get("/rental",
+//  checkBearer,
  getAllRentalItems
  );
+
 rentalItemRouter.get("/rentalcat?",
  getByCategory
  );
