@@ -36,6 +36,20 @@ const getStoreDetalis = async (req, res, next) => {
 };
 
 
+const getByVendor = async (req, res, next) => {
+  try {
+    const { id } = req.params ;
+    const stores = await storeCollection.populateById({UserId: id});
+    if(stores){
+      res.status(200).json(stores);
+    }else {
+      res.status(200).send('There is No stores for this vendor:(');
+    }
+  } catch (error) {
+    next(new AppError(500, error.message));
+  }
+}
+
 const deleteStore = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -60,10 +74,13 @@ const updateStore = async (req, res, next) => {
   }
 };
 
+
+
 module.exports = {
   createStore,
   updateStore,
   deleteStore,
   getStores,
-  getStoreDetalis
+  getStoreDetalis,
+  getByVendor
 };

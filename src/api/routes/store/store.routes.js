@@ -13,6 +13,7 @@ const {
   createStore,
   updateStore,
   deleteStore,
+  getByVendor,
 } = require("./store.controller");
 
 const storeRoutes = express.Router();
@@ -21,6 +22,9 @@ storeRoutes.get("/store",
 //  isUserVerefied,
   getStores);
 storeRoutes.get("/store/:id", getStoreDetalis);
+storeRoutes.get("/vendorStores/:id",
+//  isUserVerefied,
+getByVendor);
 storeRoutes.post("/store",
 //  isUserVerefied,
   createStore);
@@ -33,6 +37,7 @@ storeRoutes.delete("/store/:id",
 //  isUserVerefied,
   // isAuthorized,
    deleteStore);
+
 
 module.exports = {
   storeRoutes,

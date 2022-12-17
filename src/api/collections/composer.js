@@ -212,6 +212,12 @@ const canDestroyRecord = (model) => {
       try {
         return await model.destroy({
           where: { id },
+          // include: [
+          //   { nested: "true" },
+          //   { association: "saleItems" },
+          //   { association: "rentalItems" }
+          // ],
+
           returning: true,
         });
       } catch (e) {
