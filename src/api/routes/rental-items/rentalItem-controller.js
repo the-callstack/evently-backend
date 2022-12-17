@@ -8,7 +8,6 @@ const createRentalItem = async (req, res, next) => {
     const newRentalItem = req.body;
     // newRentalItem.imgPath = req.file.path
     // newRentalItem.imgName = req.file.name
-    console.log('----------------------------------------------------------')
     const addedRentalItem = await rentalItemsCollection.create(newRentalItem);
     res.status(201).json(addedRentalItem);
   } catch (e) {
@@ -62,8 +61,8 @@ const getAllRentalItems = async (req, res, next) => {
 
 const getByCategory = async (req, res, next) => {
   try {
-    const { category } = req.query ;
-    const rentalItems = await rentalItemsCollection.populateById({CategoryId: category});
+    const { category } = req.params ;
+    const rentalItems = await rentalItemsCollection.readAllRecordsWithCondition({CategoryId: category});
     if(rentalItems){
       res.status(200).json(rentalItems);
     }else {
@@ -73,13 +72,15 @@ const getByCategory = async (req, res, next) => {
     next(new AppError(500, error.message));
   }
 }
+
+
 const getByStore = async (req, res, next) => {
   try {
-    const { id } = req.query ;
-    const rentalItems = await rentalItemsCollection.populateById({StoreId: id});
-    if(rentalItems){
-      res.status(200).json(rentalItems);
-    }else {
+    const { id } = req.params;
+    const rentalItems = await rentalItemsCollection.readAllRecordsWithCondition({ StoreId: id });
+    if (rentalItems) {
+      res.status(200).send(rentalItems);
+    } else {
       res.status(200).send('There is No Items available in this Category :(');
     }
   } catch (error) {
