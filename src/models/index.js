@@ -45,13 +45,13 @@ const categoryModel = createCategoryModel(sequelize, DataTypes);
 const userModel = createUsertModel(sequelize, DataTypes);
 const eventCategorYModel = createEventCategorieModel(sequelize, DataTypes);
 
-userModel.hasMany(storeModel, { as: "stores" });
+userModel.hasMany(storeModel, { as: "stores", onDelete: "CASCADE" });
 storeModel.belongsTo(userModel);
 
-storeModel.hasMany(saleItemModel, { as: "saleItems" });
+storeModel.hasMany(saleItemModel, { as: "saleItems", onDelete: "CASCADE" });
 saleItemModel.belongsTo(storeModel);
 
-storeModel.hasMany(rentalItemModel, { as: "rentalItems" });
+storeModel.hasMany(rentalItemModel, { as: "rentalItems", onDelete: "CASCADE" });
 rentalItemModel.belongsTo(storeModel);
 
 rentalItemModel.hasMany(rentalTrackingmodel, { as: "trackers" });

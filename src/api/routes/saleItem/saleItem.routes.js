@@ -34,8 +34,8 @@ saleItemRouter.get("/salestore?",
   getByStore);
 saleItemRouter.post(
   "/sale",
-  //  upload.single('img'),
-//   isUserVerefied,
+   upload.single('img'),
+  // isUserVerefied,
   createSaleItem
 );
 saleItemRouter.put(

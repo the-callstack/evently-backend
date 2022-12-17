@@ -8,6 +8,7 @@ const createRentalItem = async (req, res, next) => {
     const newRentalItem = req.body;
     // newRentalItem.imgPath = req.file.path
     // newRentalItem.imgName = req.file.name
+    console.log('----------------------------------------------------------')
     const addedRentalItem = await rentalItemsCollection.create(newRentalItem);
     res.status(201).json(addedRentalItem);
   } catch (e) {

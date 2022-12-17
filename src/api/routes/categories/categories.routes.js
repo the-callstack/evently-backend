@@ -24,7 +24,10 @@ CategoryRouter.get(
   isAuthorized,
   getCategoryDetalis
 );
-CategoryRouter.post("/category", isUserVerefied, isAuthorized, createCat);
+CategoryRouter.post("/category"
+// , isUserVerefied
+// , isAuthorized
+, createCat);
 CategoryRouter.put(
   "/category/:id",
   isUserVerefied,
