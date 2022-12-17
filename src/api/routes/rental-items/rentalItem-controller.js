@@ -99,6 +99,16 @@ const getByPrice = async (req, res, next) => {
   }
 }
 
+const getByKeyWord = async(req, res, next) => {
+  try {
+    const { keyWord } = req.query ;
+    const rentalItems = await rentalItemsCollection.readAllRecordsWithCondition({name : keyWord});
+    res.status(200).send(rentalItems);
+  } catch (error) {
+    next(new AppError(500, error.message));
+  }
+  }
+
 module.exports = {
   createRentalItem,
   updateRentalItem,
@@ -107,5 +117,6 @@ module.exports = {
   getAllRentalItems,
   getByCategory,
   getByStore,
-  getByPrice
+  getByPrice,
+  getByKeyWord
 };

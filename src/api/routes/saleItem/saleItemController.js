@@ -62,9 +62,9 @@ const deleteSaleItem = async (req, res, next) => {
 const getByStore = async (req, res, next) => {
     try {
       const { id } = req.query ;
-      const rentalItems = await saleItemCollection.populateById({StoreId: id});
+      const saleItems = await saleItemCollection.populateById({StoreId: id});
       if(rentalItems){
-        res.status(200).json(rentalItems);
+        res.status(200).json(saleItems);
       }else {
         res.status(200).send('There is No Items available in this Category :(');
       }
@@ -75,9 +75,9 @@ const getByStore = async (req, res, next) => {
   const getByCategory = async (req, res, next) => {
     try {
       const { category } = req.query ;
-      const rentalItems = await saleItemCollection.readAllRecordsWithCondition({CategoryId: category});
+      const saleItems = await saleItemCollection.readAllRecordsWithCondition({CategoryId: category});
       if(rentalItems){
-        res.status(200).json(rentalItems);
+        res.status(200).json(saleItems);
       }else {
         res.status(200).send('There is No Items available in this Category :(');
       }
@@ -91,13 +91,22 @@ const getByStore = async (req, res, next) => {
       const { price } = req.params ;
       const num = parseInt(price);
       console.log(typeof num);
-      const rentalItems = await saleItemCollection.readAllRecordsBetween(num);
-      res.status(200).send(rentalItems);
+      const saleItems = await saleItemCollection.readAllRecordsBetween(num);
+      res.status(200).send(saleItems);
     } catch (error) {
       next(new AppError(500, error.message));
     }
   }
+  const getByKeyWord = async( req, res, next ) => {
+    try {
+      const { keyWord } = req.query ;
+      const saleItems = await saleItemCollection.readAllRecordsWithCondition({name: keyWord});
+      res.status(200).send(saleItems);
+    } catch (error) {
+      next(new AppError(500, error.message));
+    }
 
+  }
 
 module.exports = {
     getOneSaleItems,
@@ -107,5 +116,6 @@ module.exports = {
     createSaleItem,
     getByStore,
     getByCategory,
-    getByPrice
+    getByPrice,
+    getByKeyWord
 };

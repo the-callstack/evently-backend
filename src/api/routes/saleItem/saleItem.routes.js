@@ -9,7 +9,8 @@ const {
   deleteSaleItem,
   getByCategory,
   getByStore,
-  getByPrice
+  getByPrice,
+  getByKeyWord
 } = require("./saleItemController");
 const {
   isAuthorized,
@@ -30,6 +31,9 @@ saleItemRouter.get("/sale",
 saleItemRouter.get("/salecat?",
 //  isUserVerefied,
 getByCategory);
+saleItemRouter.get("/salekey?",
+//  isUserVerefied,
+getByKeyWord);
 saleItemRouter.get("/saleprice/:price",
 //  isUserVerefied,
 getByPrice

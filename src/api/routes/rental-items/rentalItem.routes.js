@@ -16,7 +16,8 @@ const {
   updateRentalItem,
   deleteRentalItem,
   getByStore,
-  getByPrice
+  getByPrice,
+  getByKeyWord
 } = require("./rentalItem-controller");
 
 const rentalItemRouter = express.Router();
@@ -53,6 +54,12 @@ rentalItemRouter.delete(
 //   isUserVerefied,
 //   isAuthorized,
   deleteRentalItem
+);
+rentalItemRouter.get(
+  "/rentalkey?",
+//   isUserVerefied,
+//   isAuthorized,
+getByKeyWord
 );
 
 module.exports = {
