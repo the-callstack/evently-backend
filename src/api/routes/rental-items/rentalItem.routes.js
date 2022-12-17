@@ -29,10 +29,10 @@ createRentalItem);
 rentalItemRouter.get("/rental",
  getAllRentalItems
  );
-rentalItemRouter.get("/rentalcat?",
+rentalItemRouter.get("/rentalcat/:id",
  getByCategory
  );
-rentalItemRouter.get("/rentalstore?",
+rentalItemRouter.get("/rentalstore/:id",
  getByStore
  );
 rentalItemRouter.put(
