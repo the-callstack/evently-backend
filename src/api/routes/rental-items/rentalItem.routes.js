@@ -15,7 +15,8 @@ const {
   createRentalItem,
   updateRentalItem,
   deleteRentalItem,
-  getByStore
+  getByStore,
+  getByPrice
 } = require("./rentalItem-controller");
 
 const rentalItemRouter = express.Router();
@@ -32,11 +33,14 @@ rentalItemRouter.get("/rental",
  getAllRentalItems
  );
 
-rentalItemRouter.get("/rentalcat?",
+rentalItemRouter.get("/rentalcat/:id",
  getByCategory
  );
 rentalItemRouter.get("/rentalstore?",
  getByStore
+ );
+rentalItemRouter.get("/rentalprice/:price",
+ getByPrice
  );
 rentalItemRouter.put(
   "/rental/:id",
