@@ -33,7 +33,8 @@ const getEvents = async (req, res, next) => {
 const getEventDetalis = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const eventDetails = await eventCollection.populateById({ id });
+        const { cats, items } = req.query;
+        const eventDetails = await eventCollection.selectItemsByEventCatId(id, cats, items);
         res.status(200).json(eventDetails);
     } catch (error) {
         next(new AppError(500, 'Server Error'));
