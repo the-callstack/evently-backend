@@ -8,7 +8,9 @@ const {
   updateSaleItem,
   deleteSaleItem,
   getByCategory,
-  getByStore
+  getByStore,
+  getByPrice,
+  getByKeyWord
 } = require("./saleItemController");
 const {
   isAuthorized,
@@ -29,12 +31,20 @@ saleItemRouter.get("/sale",
 saleItemRouter.get("/salecat/:id",
 //  isUserVerefied,
 getByCategory);
+
+saleItemRouter.get("/salekey?",
+//  isUserVerefied,
+getByKeyWord);
+saleItemRouter.get("/saleprice/:price",
+//  isUserVerefied,
+getByPrice
+);
 saleItemRouter.get("/salestore/:id",
 //  isUserVerefied,
   getByStore);
 saleItemRouter.post(
   "/sale",
-   upload.single('img'),
+  //  upload.single('img'),
   // isUserVerefied,
   createSaleItem
 );

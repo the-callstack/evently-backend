@@ -61,8 +61,8 @@ const getAllRentalItems = async (req, res, next) => {
 
 const getByCategory = async (req, res, next) => {
   try {
-    const { category } = req.params ;
-    const rentalItems = await rentalItemsCollection.readAllRecordsWithCondition({CategoryId: category});
+    const { id } = req.params;  
+    const rentalItems = await rentalItemsCollection.readAllRecordsWithCondition({CategoryId: id});
     if(rentalItems){
       res.status(200).json(rentalItems);
     }else {
@@ -88,6 +88,28 @@ const getByStore = async (req, res, next) => {
   }
 }
 
+const getByPrice = async (req, res, next) => {
+  try {
+    const { price } = req.params ;
+    const num = parseInt(price);
+    console.log(typeof num);
+    const rentalItems = await rentalItemsCollection.readAllRecordsBetween(num);
+    res.status(200).send(rentalItems);
+  } catch (error) {
+    next(new AppError(500, error.message));
+  }
+}
+
+const getByKeyWord = async(req, res, next) => {
+  try {
+    const { keyWord } = req.query ;
+    const rentalItems = await rentalItemsCollection.readAllRecordsWithCondition({name : keyWord});
+    res.status(200).send(rentalItems);
+  } catch (error) {
+    next(new AppError(500, error.message));
+  }
+  }
+
 module.exports = {
   createRentalItem,
   updateRentalItem,
@@ -95,5 +117,7 @@ module.exports = {
   getRentalItemDetails,
   getAllRentalItems,
   getByCategory,
-  getByStore
+  getByStore,
+  getByPrice,
+  getByKeyWord
 };

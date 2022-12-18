@@ -26,8 +26,8 @@ const getAllSaleItems = async (req, res, next) => {
 
 const createSaleItem = async (req, res, next) => {
     const itemData = req.body;
-    itemData.imgPath = req.file.path
-    itemData.imgName = req.file.filename
+    // itemData.imgPath = req.file.path
+    // itemData.imgName = req.file.filename
     try {
         const newItem = await saleItemCollection.create(itemData);
         res.status(201).send(newItem);
@@ -78,10 +78,11 @@ const deleteSaleItem = async (req, res, next) => {
 
   const getByCategory = async (req, res, next) => {
     try {
-      const { category } = req.params ;
-      const rentalItems = await saleItemCollection.readAllRecordsWithCondition({CategoryId: category});
+
+      const { id } = req.params ;
+      const rentalItems = await saleItemCollection.readAllRecordsWithCondition({CategoryId: id});
       if(rentalItems){
-        res.status(200).json(rentalItems);
+        res.status(200).json(saleItems);
       }else {
         res.status(200).send('There is No Items available in this Category :(');
       }
@@ -90,6 +91,27 @@ const deleteSaleItem = async (req, res, next) => {
     }
   }
 
+  const getByPrice = async (req, res, next) => {
+    try {
+      const { price } = req.params ;
+      const num = parseInt(price);
+      console.log(typeof num);
+      const saleItems = await saleItemCollection.readAllRecordsBetween(num);
+      res.status(200).send(saleItems);
+    } catch (error) {
+      next(new AppError(500, error.message));
+    }
+  }
+  const getByKeyWord = async( req, res, next ) => {
+    try {
+      const { keyWord } = req.query ;
+      const saleItems = await saleItemCollection.readAllRecordsWithCondition({name: keyWord});
+      res.status(200).send(saleItems);
+    } catch (error) {
+      next(new AppError(500, error.message));
+    }
+
+  }
 
 module.exports = {
     getOneSaleItems,
@@ -98,5 +120,7 @@ module.exports = {
     updateSaleItem,
     createSaleItem,
     getByStore,
-    getByCategory
+    getByCategory,
+    getByPrice,
+    getByKeyWord
 };

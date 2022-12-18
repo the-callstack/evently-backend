@@ -40,6 +40,21 @@ const canReadAllRecordsWithCondition = (model) => {
         throw new Error(e.message);
       }
     },
+    readAllRecordsBetween : async (price) => {
+      try {
+        console.log(price);
+        return await model.findAll({
+          where: {    
+              price:  
+              {
+                  [Op.between]: [0, price]
+              }
+          }
+        })
+      } catch (e) {
+        throw new Error(e.message);
+      }
+    }
   };
 };
 
@@ -357,6 +372,7 @@ const createSaleItemCollection = (model) => {
     ...canCreateOneRecord(model),
     ...canIncrementValue(model),
     ...canReadPopulatedRecords(model),
+    ...canReadAllRecordsWithCondition(model)
   };
 };
 
