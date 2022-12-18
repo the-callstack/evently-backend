@@ -61,15 +61,23 @@ const canReadAllRecordsWithCondition = (model) => {
 
 const selectNestedItemsByEventandCatID = (model) => {
   return {
-    selectItemsByEventCatId: async (EventId) => {
-      try {
-        return await model.findOne({
-          where: { EventId },
+    selectItemsByEventCatId: async (id, nested) => {
+      const data = {};
+      if (nested) {
+        data = {
+          where: { id },
           include: [{
             association: 'categories',
             include: ['rentalItems', 'saleItems']
           }]
-        });
+        };
+      } else {
+        data = {
+          where: { id }
+        };
+      }
+      try {
+        return await model.findOne(data);
       } catch (error) {
         throw new Error(error.message);
       }
