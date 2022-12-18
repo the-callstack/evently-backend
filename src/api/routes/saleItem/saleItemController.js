@@ -26,7 +26,6 @@ const getAllSaleItems = async (req, res, next) => {
 
 const createSaleItem = async (req, res, next) => {
     const itemData = req.body;
-    console.log(req.file)
     // itemData.imgPath = req.file.path
     // itemData.imgName = req.file.filename
     try {
@@ -59,23 +58,29 @@ const deleteSaleItem = async (req, res, next) => {
         next(new AppError(401, e.message));
     }
 };
-const getByStore = async (req, res, next) => {
+
+
+  const getByStore = async (req, res, next) => {
     try {
-      const { id } = req.query ;
-      const saleItems = await saleItemCollection.populateById({StoreId: id});
-      if(rentalItems){
-        res.status(200).json(saleItems);
-      }else {
+      const { id } = req.params;
+      const salelItems = await saleItemCollection.readAllRecordsWithCondition({ StoreId: id });
+      if (salelItems) {
+        res.status(200).send(salelItems);
+      } else {
         res.status(200).send('There is No Items available in this Category :(');
       }
     } catch (error) {
       next(new AppError(500, error.message));
     }
   }
+  
+
+
   const getByCategory = async (req, res, next) => {
     try {
-      const { category } = req.query ;
-      const saleItems = await saleItemCollection.readAllRecordsWithCondition({CategoryId: category});
+
+      const { id } = req.params ;
+      const rentalItems = await saleItemCollection.readAllRecordsWithCondition({CategoryId: id});
       if(rentalItems){
         res.status(200).json(saleItems);
       }else {

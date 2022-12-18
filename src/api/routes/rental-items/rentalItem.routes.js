@@ -37,7 +37,7 @@ rentalItemRouter.get("/rental",
 rentalItemRouter.get("/rentalcat/:id",
  getByCategory
  );
-rentalItemRouter.get("/rentalstore?",
+rentalItemRouter.get("/rentalstore/:id",
  getByStore
  );
 rentalItemRouter.get("/rentalprice/:price",

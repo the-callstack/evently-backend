@@ -28,9 +28,10 @@ saleItemRouter.get("/sale/:id",
 saleItemRouter.get("/sale",
 //  isUserVerefied,
   getAllSaleItems);
-saleItemRouter.get("/salecat?",
+saleItemRouter.get("/salecat/:id",
 //  isUserVerefied,
 getByCategory);
+
 saleItemRouter.get("/salekey?",
 //  isUserVerefied,
 getByKeyWord);
@@ -38,7 +39,7 @@ saleItemRouter.get("/saleprice/:price",
 //  isUserVerefied,
 getByPrice
 );
-saleItemRouter.get("/salestore?",
+saleItemRouter.get("/salestore/:id",
 //  isUserVerefied,
   getByStore);
 saleItemRouter.post(

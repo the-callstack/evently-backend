@@ -38,11 +38,11 @@ const getStoreDetalis = async (req, res, next) => {
 
 const getByVendor = async (req, res, next) => {
   try {
-    const { id } = req.params ;
-    const stores = await storeCollection.populateById({UserId: id});
-    if(stores){
-      res.status(200).json(stores);
-    }else {
+    const { id } = req.params;
+    const stores = await storeCollection.readAllRecordsWithCondition({ UserId: id });
+    if (stores) {
+      res.status(200).send(stores);
+    } else {
       res.status(200).send('There is No stores for this vendor:(');
     }
   } catch (error) {
