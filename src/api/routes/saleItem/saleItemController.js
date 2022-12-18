@@ -80,8 +80,8 @@ const deleteSaleItem = async (req, res, next) => {
     try {
 
       const { id } = req.params ;
-      const rentalItems = await saleItemCollection.readAllRecordsWithCondition({CategoryId: id});
-      if(rentalItems){
+      const saleItems = await saleItemCollection.readAllRecordsWithCondition({CategoryId: id});
+      if(saleItems){
         res.status(200).json(saleItems);
       }else {
         res.status(200).send('There is No Items available in this Category :(');
@@ -97,6 +97,7 @@ const deleteSaleItem = async (req, res, next) => {
       const num = parseInt(price);
       console.log(typeof num);
       const saleItems = await saleItemCollection.readAllRecordsBetween(num);
+      console.log(saleItems);
       res.status(200).send(saleItems);
     } catch (error) {
       next(new AppError(500, error.message));
