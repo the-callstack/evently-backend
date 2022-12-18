@@ -61,16 +61,25 @@ const canReadAllRecordsWithCondition = (model) => {
 
 const selectNestedItemsByEventandCatID = (model) => {
   return {
-    selectItemsByEventCatId: async (id, nested) => {
-      const data = {};
-      if (nested) {
-        data = {
-          where: { id },
-          include: [{
-            association: 'categories',
-            include: ['rentalItems', 'saleItems']
-          }]
-        };
+    selectItemsByEventCatId: async (id, cats, items) => {
+      let data = {};
+      if (cats) {
+        if (items) {
+          data = {
+            where: { id },
+            include: [{
+              association: 'categories',
+              include: ['rentalItems', 'saleItems']
+            }]
+          };
+        } else {
+          data = {
+            where: { id },
+            include: [{
+              association: 'categories'
+            }]
+          };
+        }
       } else {
         data = {
           where: { id }
