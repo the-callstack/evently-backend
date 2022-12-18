@@ -17,13 +17,16 @@ const {
 
 const eventRouter = express.Router();
 
-eventRouter.get("/event", 
-// isUserVerefied, 
-// isAuthorized, 
-getEvents);
-eventRouter.get("/event/:id", isUserVerefied, isAuthorized, getEventDetalis);
+eventRouter.get("/event",
+  // isUserVerefied, 
+  // isAuthorized, 
+  getEvents);
+eventRouter.get("/event/:id",
+  //  isUserVerefied,
+  // isAuthorized, 
+  getEventDetalis);
 eventRouter.post("/event",
-//  isUserVerefied,
+  //  isUserVerefied,
   // isAuthorized, 
   createEvent);
 eventRouter.put("/event/:id", isUserVerefied, isAuthorized, updateEvent);
