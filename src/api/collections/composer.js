@@ -40,19 +40,55 @@ const canReadAllRecordsWithCondition = (model) => {
         throw new Error(e.message);
       }
     },
-    readAllRecordsBetween : async (price) => {
+    readAllRecordsBetween: async (price) => {
       try {
         console.log(price);
         return await model.findAll({
-          where: {    
-              price:  
-              {
-                  [Op.between]: [0, price]
-              }
+          where: {
+            price:
+            {
+              [Op.between]: [0, price]
+            }
           }
-        })
+        });
       } catch (e) {
         throw new Error(e.message);
+      }
+    }
+  };
+};
+
+
+const selectNestedItemsByEventandCatID = (model) => {
+  return {
+    selectItemsByEventCatId: async (id, cats, items) => {
+      let data = {};
+      if (cats) {
+        if (items) {
+          data = {
+            where: { id },
+            include: [{
+              association: 'categories',
+              include: ['rentalItems', 'saleItems']
+            }]
+          };
+        } else {
+          data = {
+            where: { id },
+            include: [{
+              association: 'categories'
+            }]
+          };
+        }
+      } else {
+        data = {
+          where: { id }
+        };
+      }
+      try {
+        return await model.findOne(data);
+      } catch (error) {
+        throw new Error(error.message);
       }
     }
   };
@@ -389,6 +425,7 @@ const createEventCollection = (model) => {
     ...canUpdateRecord(model),
     ...canDestroyEventCatRecord(model),
     ...canPopualteOneRecordWithNestedData(model),
+    ...selectNestedItemsByEventandCatID(model)
   };
 };
 
