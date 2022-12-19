@@ -17,20 +17,30 @@ const {
 
 const eventRouter = express.Router();
 
-eventRouter.get("/event",
-  // isUserVerefied, 
-  // isAuthorized, 
-  getEvents);
+
+eventRouter.get(
+  "/event",
+  // isUserVerefied,
+  // isAuthorized,
+  getEvents
+);
 eventRouter.get("/event/:id",
+// isUserVerefied,
+// isAuthorized,
+getEventDetalis);
+
+eventRouter.post(
+  "/event",
   //  isUserVerefied,
-  // isAuthorized, 
-  getEventDetalis);
-eventRouter.post("/event",
-  //  isUserVerefied,
-  // isAuthorized, 
-  createEvent);
+  // isAuthorized,
+  createEvent
+);
+
 eventRouter.put("/event/:id", isUserVerefied, isAuthorized, updateEvent);
-eventRouter.delete("/event/:id", isUserVerefied, isAuthorized, deleteEvent);
+eventRouter.delete("/event/:id",
+// isUserVerefied,
+// isAuthorized,
+deleteEvent);
 
 module.exports = {
   eventRouter,

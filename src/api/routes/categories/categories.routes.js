@@ -17,19 +17,23 @@ const {
 
 const CategoryRouter = express.Router();
 
-CategoryRouter.get("/category",
-// isUserVerefied,  
-getCategory);
+CategoryRouter.get(
+  "/category",
+  // isUserVerefied,
+  getCategory
+);
 CategoryRouter.get(
   "/category/:id",
   // isUserVerefied,
   // isAuthorized,
   getCategoryDetalis
 );
-CategoryRouter.post("/category"
-// , isUserVerefied
-// , isAuthorized
-, createCat);
+CategoryRouter.post(
+  "/category",
+  // , isUserVerefied
+  // , isAuthorized
+  createCat
+);
 CategoryRouter.put(
   "/category/:id",
   // isUserVerefied,
@@ -38,8 +42,8 @@ CategoryRouter.put(
 );
 CategoryRouter.delete(
   "/category/:id",
-  isUserVerefied,
-  isAuthorized,
+  // isUserVerefied,
+  // isAuthorized,
   deleteCategory
 );
 
