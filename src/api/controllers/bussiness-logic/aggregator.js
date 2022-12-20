@@ -22,7 +22,7 @@ const createPackage = async (eventId, budget, categories, attendance) => {
                 totalPrice: 0,
             };
             pckg.items = items.reduce((val, obj) => {
-                pckg.totalPrice = +obj.price * attendance;
+                pckg.totalPrice += (obj.price * attendance);
                 val.push({
                     id: obj.id,
                     name: obj.name,
