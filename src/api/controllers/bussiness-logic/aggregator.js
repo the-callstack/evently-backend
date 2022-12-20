@@ -35,7 +35,8 @@ const createPackage = async (eventId, budget, categories, attendance) => {
         const result = {
             suggestedPackage,
         };
-        return result;
+
+        return suggestedPackage;
     } catch (error) {
         throw new Error(error.message);
     }
