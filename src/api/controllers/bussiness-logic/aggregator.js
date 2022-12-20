@@ -24,10 +24,14 @@ const createPackage = async (eventId, budget, categories, attendance) => {
             pckg.items = items.reduce((val, obj) => {
                 pckg.totalPrice = +obj.price * attendance;
                 val.push({
-                    item: obj.name,
+                    id: obj.id,
+                    name: obj.name,
                     quantity: attendance,
-                    price: obj.price * attendance
-                });
+                    totalPrice: obj.price * attendance,
+                    price: obj.price,
+                    CatName: obj.CatName,
+                    imgPath: obj.imgPath
+                }); 
                 return val;
             }, []);
             return pckg;
@@ -35,7 +39,7 @@ const createPackage = async (eventId, budget, categories, attendance) => {
         const result = {
             suggestedPackage,
         };
-        return result;
+        return suggestedPackage;
     } catch (error) {
         throw new Error(error.message);
     }
