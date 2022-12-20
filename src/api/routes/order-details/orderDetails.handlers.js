@@ -23,7 +23,10 @@ const addOrderDetails = async (req, res, next) => {
 const createFilledOrder = async (req, res, next) => {
     try {
         const data = req.body;
+
+
         data.totalPrice = calculateTotalPrice(data.details);
+        
         const { newTrackers, existingTrackers } = extractRentalItem(data);
         const saleItems = extractSaleItem(data);
         const updatedSaleItems = await updateSaleItemQuantity(saleItems);
@@ -31,13 +34,13 @@ const createFilledOrder = async (req, res, next) => {
         const updatedTrackers = await updateRentalTrackerQuantity(existingTrackers);
         const createdOrder = await orderCollection.createWithNested(data, ['details']);
         const result = {
-            saleItems,
-            createdTrackers,
-            updatedSaleItems,
-            updatedTrackers,
+            // saleItems,
+            // createdTrackers,
+            // updatedSaleItems,
+            // updatedTrackers,
             createdOrder
         };
-        res.status(200).send(result);
+        res.status(200).send(createdOrder);
     } catch (e) {
         next(new AppError(500, e.message));
     }

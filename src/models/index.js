@@ -100,7 +100,7 @@ eventCategorYModel.belongsTo(categoryModel);
 const userCollection = createGenericCollections(userModel);
 const authCollection = createAuthCollection(userModel);
 const storeCollection = createGenericCollections(storeModel);
-const saleItemCollection = createGenericCollections(saleItemModel);
+const saleItemCollection = createSaleItemCollection(saleItemModel);
 const orderDetailsCollection = createOrderDetailsCollection(orderDetailsModel);
 const rentalItemsCollection = createGenericCollections(rentalItemModel);
 

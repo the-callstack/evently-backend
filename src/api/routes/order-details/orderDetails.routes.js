@@ -16,8 +16,8 @@ const orderDetailsRouter = express.Router();
 
 orderDetailsRouter.post(
   "/details",
-  isUserVerefied,
-  isAuthorized,
+  // isUserVerefied,
+  // isAuthorized,
   createFilledOrder
 );
 
