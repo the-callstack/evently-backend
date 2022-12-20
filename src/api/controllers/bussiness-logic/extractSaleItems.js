@@ -29,7 +29,7 @@ const updateSaleItemQuantity = async (saleItems) => {
         }
         return updatedItems
     } catch (error) {
-        throw new Error
+        throw new Error(error.message)
     }
 }
 

@@ -7,7 +7,7 @@ const AppError = require('./../../../api/controllers/errorControllers/error-clas
 
 const aggregatePackage = async (req, res, next) => {
     try {
-        const { eventId, budget, categories, attendance } = req.body;
+        const { eventId, budget, categories, attendance } = req.body;   
         const packageData = await createPackage(eventId, budget, categories, attendance);
         res.status(200).send(packageData);
     } catch (error) {
