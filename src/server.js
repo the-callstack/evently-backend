@@ -18,8 +18,8 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cors(
     {
-        credentials:true,
-        origin:["http://localhost:3000"]
+        credentials: true,
+        origin: ["http://localhost:3000", "https://eventlyjo.netlify.app"]
     }
 ));
 app.use(cookieParser());
